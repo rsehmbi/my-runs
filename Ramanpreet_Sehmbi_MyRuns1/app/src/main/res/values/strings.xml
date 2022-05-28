@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MyRuns1</string>
+    <string name="app_name">MyRunsDevelop</string>
 
-<!--    Profile page strings-->
+    <!--    Profile page strings-->
     <string name="user_image_description">Profile Picture</string>
     <string name="change_profile_picture">Change</string>
     <string name="profile_photo">Profile Photo:</string>
@@ -30,5 +30,35 @@
     <string name="sharedPUserGender">userGender</string>
     <string name="sharedPUserClass">userClass</string>
     <string name="sharedPUserMajor">userMajor</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="activity_type">Activity Type</string>
+    <string name="start">Start</string>
+    <string name="input_type">Input Type</string>
+
+    <string-array name="input_types">
+        <item>Manual Entry</item>
+        <item>GPS</item>
+        <item>Automatic</item>
+    </string-array>
+
+    <string-array name="activity_types">
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Standing</item>
+        <item>Cycling</item>
+        <item>Hiking</item>
+        <item>Downhill Skiing</item>
+        <item>Cross-Country Skiing</item>
+        <item>Snowboarding</item>
+        <item>Skating</item>
+        <item>Swimming</item>
+        <item>Mountaun Biking</item>
+        <item>Wheelchair</item>
+        <item>Elliptical</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>
