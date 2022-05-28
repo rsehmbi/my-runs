@@ -54,7 +54,7 @@ class Start : Fragment(){
         startButton = fragmentStartView.findViewById(R.id.start_button_id)
         startButton.setOnClickListener(){
             if(INPUTTYPE == "Manual Entry"){
-                Toast.makeText(context, "Manual Entry Page", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(activity, ManualEntry::class.java))
             }
             else{
                 startActivity(Intent(activity, GPS::class.java))
