@@ -52,10 +52,12 @@ class ManualEntry : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, Dat
         //TODO: Requirements not available yet
 
     }
-    fun OnButtonSave(view: View) {}
-    fun OnButtonCancel(view: View) {}
-
-
+    fun OnButtonSave(view: View) {
+        finish()
+    }
+    fun OnButtonCancel(view: View) {
+        finish()
+    }
 
     override fun onTimeSet(view: TimePicker, hour: Int, minute: Int) {
         //TODO: Requirements not specified yet
