@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">MyRuns1</string>
+
+<!--    Profile page strings-->
+    <string name="user_image_description">Profile Picture</string>
+    <string name="change_profile_picture">Change</string>
+    <string name="profile_photo">Profile Photo:</string>
+    <string name="profile_name">Name:</string>
+    <string name="profile_name_hint">Your Name</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_email_hint">Your Email</string>
+    <string name="profile_phone">Phone:</string>
+    <string name="profile_phone_hint">Your Phone Number</string>
+    <string name="profile_gender">Gender:</string>
+    <string name="profile_gender_male">Male</string>
+    <string name="profile_gender_female">Female</string>
+    <string name="profile_class">Class:</string>
+    <string name="profile_class_hint">eg. 2012</string>
+    <string name="profile_major">Major:</string>
+    <string name="profile_major_hint">Your Major</string>
+    <string name="profile_save_button">Save</string>
+    <string name="profile_cancel_button">Cancel</string>
+    <string name="Permissions">App Permissions</string>
+    <string name="PermissionDialogBody">Camera and Storage settings are required to capture profile picture. Please enable permissions in Settings.</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="sharedPUserName">userName</string>
+    <string name="sharePUserEmail">userEmail</string>
+    <string name="sharedPUserPhone">userPhone</string>
+    <string name="sharedPUserGender">userGender</string>
+    <string name="sharedPUserClass">userClass</string>
+    <string name="sharedPUserMajor">userMajor</string>
+
+</resources>
