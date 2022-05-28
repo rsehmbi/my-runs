@@ -39,12 +39,12 @@ class ManualEntry : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, Dat
         }
     }
     fun handleDateClicked(){
-        val datePicker = DatePickerDialog(this, this,  calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
+        val datePicker = DatePickerDialog(this,  R.style.DialogTheme,this,  calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
         datePicker.show()
     }
 
     fun handleTimeClicked(){
-        val timePicker = TimePickerDialog(this, this,calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
+        val timePicker = TimePickerDialog(this, R.style.DialogTheme, this,calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
         timePicker.show()
     }
 
