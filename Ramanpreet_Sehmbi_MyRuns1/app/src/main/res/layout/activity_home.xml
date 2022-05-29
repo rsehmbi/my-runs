@@ -34,4 +34,12 @@
         android:name="com.example.ramanpreet_sehmbi.Start">
     </fragment>
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/settomgs_fragment"
+        android:name="com.example.ramanpreet_sehmbi.SettingsFragment">
+    </fragment>
+
+
 </LinearLayout>
