@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:text="@string/input_type">
-    </TextView>
-
-    <Spinner
         android:layout_width="match_parent"
-        android:id="@+id/input_type_id"
-        android:layout_height="wrap_content">
-    </Spinner>
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_type">
-    </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/input_type">
+        </TextView>
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/activity_types_id">
-    </Spinner>
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/input_type_id"
+            android:layout_height="wrap_content">
+        </Spinner>
 
-    <Button
-        android:id="@+id/start_button_id"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/start">
-    </Button>
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_type">
+        </TextView>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_types_id">
+        </Spinner>
+
+        <Button
+            android:id="@+id/start_button_id"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start">
+        </Button>
+    </LinearLayout>
+</ScrollView>

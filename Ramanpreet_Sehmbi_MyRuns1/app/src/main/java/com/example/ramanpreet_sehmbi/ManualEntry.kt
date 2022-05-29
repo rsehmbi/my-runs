@@ -2,13 +2,16 @@ package com.example.ramanpreet_sehmbi
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import android.widget.DatePicker
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentResultListener
 import java.util.*
 
-class ManualEntry : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+
+class ManualEntry : AppCompatActivity() {
 
     lateinit var manualEntries: ListView
     private val calendar = Calendar.getInstance()
@@ -39,13 +42,27 @@ class ManualEntry : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, Dat
         }
     }
     fun handleDateClicked(){
-        val datePicker = DatePickerDialog(this,  R.style.DialogTheme,this,  calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
-        datePicker.show()
+        val datePickerFragment = com.example.ramanpreet_sehmbi.DatePicker()
+        datePickerFragment.show(supportFragmentManager, null)
+        supportFragmentManager.setFragmentResultListener("DATE_REQUEST_KEY", this){
+            resultkey, bundle ->
+            if (resultkey == "DATE_REQUEST_KEY"){
+                val date = bundle.get("DATE_SELECTED")
+                Toast.makeText(this, "$date", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun handleTimeClicked(){
-        val timePicker = TimePickerDialog(this, R.style.DialogTheme, this,calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
-        timePicker.show()
+        val timePickerFragment = com.example.ramanpreet_sehmbi.TimePicker()
+        timePickerFragment.show(supportFragmentManager, null)
+        supportFragmentManager.setFragmentResultListener("TIME_REQUEST_KEY", this){
+                resultkey, bundle ->
+            if (resultkey == "TIME_REQUEST_KEY"){
+                val time = bundle.get("TIME_SELECTED")
+                Toast.makeText(this, "$time", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun showPopUpDialod(selectedItemText:String){
@@ -59,13 +76,6 @@ class ManualEntry : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, Dat
         finish()
     }
 
-    override fun onTimeSet(view: TimePicker, hour: Int, minute: Int) {
-        //TODO: Requirements not specified yet
-    }
-
-    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        //TODO: Requirements not specified yet
-    }
 }
 
 
