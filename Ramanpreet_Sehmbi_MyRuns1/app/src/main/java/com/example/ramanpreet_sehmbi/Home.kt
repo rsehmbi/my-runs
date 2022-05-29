@@ -2,6 +2,7 @@ package com.example.ramanpreet_sehmbi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 
 class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

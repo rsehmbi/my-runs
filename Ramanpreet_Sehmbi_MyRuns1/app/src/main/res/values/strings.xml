@@ -38,12 +38,27 @@
     <string name="start">Start</string>
     <string name="input_type">Input Type</string>
 
+    <string name="messages_header">Messages</string>
+
+    <string name="sync_header">Sync</string>
+
+    <string name="signature_title">Your signature</string>
+    <!-- Preference Titles -->
+    <string name="reply_title">Default reply action</string>
+    <string name="sync_title">Sync email periodically</string>
+
+    <!-- Messages Preferences -->
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+
+    <!-- Sync Preferences -->
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string-array name="input_types">
         <item>Manual Entry</item>
         <item>GPS</item>
         <item>Automatic</item>
     </string-array>
-
     <string-array name="activity_types">
         <item>Running</item>
         <item>Walking</item>
@@ -60,7 +75,6 @@
         <item>Elliptical</item>
         <item>Other</item>
     </string-array>
-
     <string-array name="manual_list_items">
         <item>Date</item>
         <item>Time</item>
