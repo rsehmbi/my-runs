@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ramanpreet_sehmbi.CustomDialog.Companion.TITLE_KEY
 
 import java.util.*
 
@@ -46,7 +47,7 @@ class ManualEntry : AppCompatActivity() {
             resultkey, bundle ->
             if (resultkey == "DATE_REQUEST_KEY"){
                 val date = bundle.get("DATE_SELECTED")
-                Toast.makeText(this, "$date", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "$date", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -58,14 +59,19 @@ class ManualEntry : AppCompatActivity() {
                 resultkey, bundle ->
             if (resultkey == "TIME_REQUEST_KEY"){
                 val time = bundle.get("TIME_SELECTED")
-                Toast.makeText(this, "$time", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "$time", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     fun showPopUpDialod(selectedItemText:String){
-        //TODO: Requirements not available yet
+        val myDialog = CustomDialog()
+        val bundle = Bundle()
 
+        bundle.putString(TITLE_KEY, selectedItemText)
+        myDialog.arguments = bundle
+
+        myDialog.show(supportFragmentManager, null)
     }
     fun OnButtonSave(view: View) {
         finish()
