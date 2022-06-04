@@ -4,11 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
+import android.content.Intent.ACTION_PICK
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -25,30 +22,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.ViewModelProvider
+import com.example.ramanpreet_sehmbi.CameraGalleryDialog.Companion.CAMERA
+import com.example.ramanpreet_sehmbi.CameraGalleryDialog.Companion.GALLERY
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(){
     private var WRITEPERMISSION = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
     private var CAMERAPERMISSION = android.Manifest.permission.CAMERA
     private var REQUESTCODE = 100
     private var SHAREDPREFERENCE = "USERPROFILE"
+    private var IMAGEURI: Uri? = null
 
     lateinit var capturedImageUri: Uri
     private lateinit var cameraCapturedPicture: ActivityResultLauncher<Intent>
-    private lateinit var usrProfileImageViewModal: UserProfileViewModal
+    private lateinit var galleryCapturedPicture: ActivityResultLauncher<Intent>
 
+    private val TMP_IMG_URI = "IMG_URI"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        loadProfile()
+        loadProfile(savedInstanceState)
         setAutocompleteMajor()
-        cleanUp()
 
         // Validators
         onPasswordChangeListener()
@@ -58,28 +56,7 @@ class MainActivity : AppCompatActivity() {
         onMajorChangeListener()
         setupCameraStorageHandling()
     }
-
-    fun cleanUp(){
-        val junkFiles = ArrayList<String>()
-        val directory = getExternalFilesDir(null).toString() + "/"
-        File(directory).walkTopDown().forEach {
-            if (it.path.toString().endsWith(".jpg")){
-                junkFiles.add(it.path.toString())
-            }
-        }
-        val sharedPreference =  getSharedPreferences(SHAREDPREFERENCE,Context.MODE_PRIVATE)
-        if (sharedPreference.contains("userName")){
-            if (junkFiles.contains(sharedPreference.getString("userImagePath","").toString())){
-                println("Looking for $junkFiles")
-                junkFiles.remove(sharedPreference.getString("userImagePath","").toString())
-            }
-
-        }
-       for (file in junkFiles){
-            Files.deleteIfExists(Paths.get(file))
-       }
-    }
-    private fun loadProfile() {
+    private fun loadProfile(savedInstanceState: Bundle?) {
         val sharedPreference =  getSharedPreferences(SHAREDPREFERENCE,Context.MODE_PRIVATE)
         val nameEditText = findViewById<EditText>(R.id.user_name_id)
         val emailEditText = findViewById<EditText>(R.id.email_address_id)
@@ -88,6 +65,26 @@ class MainActivity : AppCompatActivity() {
         val userClassYear = findViewById<EditText>(R.id.class_id)
         val userMajor = findViewById<EditText>(R.id.profile_major_id)
 
+        if (savedInstanceState != null){
+            val imageURIString = savedInstanceState.getString(TMP_IMG_URI)
+            if (imageURIString != null){
+                val imageUrl = Uri.parse("$imageURIString");
+                val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
+                IMAGEURI = imageUrl
+                usrProfileImage.setImageURI(imageUrl)
+            }
+        }
+        else{
+            if (sharedPreference.contains("userImagePath")){
+                val imageURIString = sharedPreference.getString("userImagePath","").toString()
+                if (imageURIString != ""){
+                    val imageUrl = Uri.parse(imageURIString);
+                    val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
+                    IMAGEURI = imageUrl
+                    usrProfileImage.setImageURI(imageUrl)
+                }
+            }
+        }
         if (sharedPreference.contains("userName")){
             nameEditText.setText(sharedPreference.getString("userName",""))
             emailEditText.setText(sharedPreference.getString("userEmail",""))
@@ -95,11 +92,6 @@ class MainActivity : AppCompatActivity() {
             phoneEditText.setText(sharedPreference.getString("userPhone",""))
             userClassYear.setText(sharedPreference.getString("userClass",""))
             userMajor.setText(sharedPreference.getString("userMajor",""))
-            var imageFilePath = sharedPreference.getString("userImagePath","").toString()
-            var imageFile = File(imageFilePath)
-            if(imageFile.exists()){
-                setImageFromFilePath(imageFilePath)
-            }
         }
         else{
             return
@@ -187,61 +179,54 @@ class MainActivity : AppCompatActivity() {
     fun changeUserImage(view: View) {
         if (ContextCompat.checkSelfPermission(this, CAMERAPERMISSION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(this, WRITEPERMISSION) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, arrayOf(CAMERAPERMISSION, WRITEPERMISSION),REQUESTCODE);
-        } else {
-            handleImageCaptureandStorage()
+        }
+        else{
+            val profilePicturePicker = CameraGalleryDialog()
+            profilePicturePicker.show(supportFragmentManager, null)
+            supportFragmentManager.setFragmentResultListener("OPTION_REQUEST_KEY", this){
+                    resultkey, bundle ->
+                if (resultkey == "OPTION_REQUEST_KEY"){
+                    val option = bundle.get("OPTION_SELECTED")
+                    if (option == GALLERY){
+                        handleGalleryImageStorage()
+                    }
+                    else if (option == CAMERA){
+                        handleImageCaptureandStorage()
+                    }
+                }
+            }
         }
     }
 
-    fun setImageFromFilePath(path: String){
-        val imgBitmap = BitmapFactory.decodeFile(path)
-        val matrix = Matrix()
-        matrix.postRotate(90f)
-        val rotatedFile = Bitmap.createBitmap(
-            imgBitmap,
-            0,
-            0,
-            imgBitmap.getWidth(),
-            imgBitmap.getHeight(),
-            matrix,
-            true
-        )
-        val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
-        usrProfileImage.setImageBitmap(rotatedFile)
-    }
 
     fun getProfilePictureName(): String {
         val sdf = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
         val currentDataTime: String = sdf.format(Date())
         return "$currentDataTime.jpg"
     }
-    fun getRotatedBitmapPicture(imgFile: File): Bitmap? {
-        val imgBitmap = BitmapFactory.decodeFile(imgFile.path)
-        val matrix = Matrix()
-        matrix.postRotate(90f)
-        return Bitmap.createBitmap(
-            imgBitmap,
-            0,
-            0,
-            imgBitmap.getWidth(),
-            imgBitmap.getHeight(),
-            matrix,
-            true
-        )
-    }
+
     fun setupCameraStorageHandling(){
         val profilePictureName = getProfilePictureName()
         var imgFile = File(getExternalFilesDir(null), profilePictureName)
         capturedImageUri = FileProvider.getUriForFile(this, "com.example.ramanpreet_sehmbi", imgFile)
-
-        usrProfileImageViewModal = ViewModelProvider(this).get(UserProfileViewModal::class.java)
-        usrProfileImageViewModal.userProfileImage.observe(this) {
-            val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
-            usrProfileImage.setImageBitmap(it)
-        }
-
         cameraCapturedPicture = registerForActivityResult(StartActivityForResult()){ result: ActivityResult ->
             if(result.resultCode == Activity.RESULT_OK){
-                usrProfileImageViewModal.userProfileImage.value = getRotatedBitmapPicture(imgFile)
+                val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
+                usrProfileImage.setImageURI(capturedImageUri)
+                if (imgFile.exists()){
+                    IMAGEURI = capturedImageUri
+                }
+            }
+        }
+
+        galleryCapturedPicture = registerForActivityResult(StartActivityForResult()){ result: ActivityResult ->
+            if(result.resultCode == Activity.RESULT_OK){
+                val selectedImageUri: Uri? = result.data?.data
+                val usrProfileImage = findViewById<ImageView>(R.id.user_profile_image_id)
+                usrProfileImage.setImageURI(selectedImageUri)
+                if (selectedImageUri != null) {
+                    IMAGEURI = selectedImageUri
+                }
             }
         }
     }
@@ -250,6 +235,12 @@ class MainActivity : AppCompatActivity() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
         cameraCapturedPicture.launch(cameraIntent)
+    }
+
+    fun handleGalleryImageStorage(){
+        val galleryIntent = Intent(ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
+        galleryCapturedPicture.launch(galleryIntent)
     }
 
     fun openSettings(){
@@ -300,26 +291,6 @@ class MainActivity : AppCompatActivity() {
                 validateEmail(emailEditText.text.toString())
     }
 
-    fun checkifUpdate(path: String): Boolean{
-        val imageFilePath = path
-        val imageFile = File(imageFilePath)
-        if(imageFile.exists()){
-            return true
-        }
-        return false
-    }
-
-    fun updateOldPath(sharedPreference:  SharedPreferences.Editor){
-        val sharedOldPreference =  getSharedPreferences(SHAREDPREFERENCE,Context.MODE_PRIVATE)
-        if (sharedOldPreference.contains("userName")) {
-            val imageFilePath = sharedOldPreference.getString("userImagePath","").toString()
-            if (imageFilePath != "")
-            {
-                sharedPreference.putString("userImagePath", imageFilePath)
-            }
-        }
-    }
-
     fun saveProfile(view: View) {
         if (validateEditTextBoxes()){
             val sharedPreference =  getSharedPreferences(SHAREDPREFERENCE,Context.MODE_PRIVATE)
@@ -338,11 +309,9 @@ class MainActivity : AppCompatActivity() {
             sharedPrefEditor.putString(getString(R.string.sharedPUserGender), userGenderRadioGroup.checkedRadioButtonId.toString())
             sharedPrefEditor.putString(getString(R.string.sharedPUserClass), userClassYear.text.toString())
             sharedPrefEditor.putString(getString(R.string.sharedPUserMajor), userMajor.text.toString())
-            if (checkifUpdate(capturedImageUri.path.toString())){
-                sharedPrefEditor.putString("userImagePath", capturedImageUri.path)
-            }
-            else {
-                updateOldPath(sharedPrefEditor)
+
+            if (IMAGEURI.toString() != ""){
+                sharedPrefEditor.putString("userImagePath", IMAGEURI.toString())
             }
             sharedPrefEditor.apply()
             Toast.makeText(this, "User Profile Saved", Toast.LENGTH_SHORT).show()
@@ -359,4 +328,10 @@ class MainActivity : AppCompatActivity() {
         this.finish()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (IMAGEURI != null){
+            outState.putString(TMP_IMG_URI, IMAGEURI.toString())
+        }
+    }
 }

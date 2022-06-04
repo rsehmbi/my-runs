@@ -3,4 +3,5 @@
         name="storage/emulated/0"
         path="."
     />
+    <external-files-path name="/" path="." />
 </paths>
