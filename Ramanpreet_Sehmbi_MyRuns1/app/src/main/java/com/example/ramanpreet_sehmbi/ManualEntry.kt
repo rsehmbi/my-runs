@@ -47,7 +47,6 @@ class ManualEntry : AppCompatActivity() {
             resultkey, bundle ->
             if (resultkey == "DATE_REQUEST_KEY"){
                 val date = bundle.get("DATE_SELECTED")
-                //Toast.makeText(this, "$date", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,6 +76,7 @@ class ManualEntry : AppCompatActivity() {
         finish()
     }
     fun OnButtonCancel(view: View) {
+        Toast.makeText(this, "Entry Discarded", Toast.LENGTH_SHORT).show()
         finish()
     }
 

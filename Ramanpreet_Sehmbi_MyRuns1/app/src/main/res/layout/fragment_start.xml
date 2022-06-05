@@ -36,7 +36,7 @@
 
         <Button
             android:id="@+id/start_button_id"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="150dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
