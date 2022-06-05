@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -37,12 +38,14 @@ class CustomDialog: DialogFragment(), DialogInterface.OnClickListener {
 
     private  fun setEditTextProperties(fragementView: View, titleText:String){
         val editText = fragementView.findViewById<EditText>(R.id.dialog_edit_text_id)
+        editText.inputType = InputType.TYPE_CLASS_NUMBER
         if (titleText.contains("Comment")){
             handleComment(editText)
         }
     }
     private fun handleComment(editText:EditText){
         editText.setHint("How did it go? Notes here.")
+        editText.inputType = InputType.TYPE_CLASS_TEXT
     }
 
     override fun onClick(dialog: DialogInterface?, positive_or_negative: Int) {

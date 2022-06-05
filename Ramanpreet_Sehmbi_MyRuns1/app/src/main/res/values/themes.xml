@@ -19,4 +19,10 @@
         <item name="colorOnPrimary">@color/purple_700</item>
         <item name="colorOnSecondary">@color/purple_700</item>
     </style>
+
+    <style name="MyTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabGravity">fill</item>
+        <item name="tabMaxWidth">0dp</item>
+    </style>
+
 </resources>
