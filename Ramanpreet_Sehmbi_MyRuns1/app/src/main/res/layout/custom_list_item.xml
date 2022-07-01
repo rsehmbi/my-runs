@@ -9,21 +9,45 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="18sp"
+            android:textAlignment="viewStart"
+            android:textStyle="bold"
             android:id="@+id/entry_type_id"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="18sp"
+            android:text=": "
+            android:textAlignment="viewStart"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:id="@+id/activity_type_id"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="18sp"
+            android:text=", "
+            android:textAlignment="viewStart"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:id="@+id/date_time_id"/>
     </LinearLayout>
 
@@ -32,14 +56,24 @@
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:textSize="18sp"
+            android:textAlignment="viewStart"
             android:id="@+id/distance_id"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:text=", "
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
             android:id="@+id/duration_id"/>
     </LinearLayout>
 

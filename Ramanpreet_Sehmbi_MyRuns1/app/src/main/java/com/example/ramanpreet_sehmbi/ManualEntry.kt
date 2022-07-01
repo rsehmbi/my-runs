@@ -7,7 +7,9 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.CustomDialog.Companion.TITLE_KEY
+import com.example.ramanpreet_sehmbi.Database.*
 import java.util.*
 
 
@@ -26,6 +28,12 @@ class ManualEntry : AppCompatActivity() {
     var HEARTRATE_ENTERED = ""
     var CALORIES_ENTERED = ""
     var DISTANCE_ENTERED = ""
+
+    private lateinit var database: ExerciseEntryDatabase
+    private lateinit var databaseDao: ExerciseEntryDatabaseDao
+    private lateinit var repository: ExerciseEntryRepository
+    private lateinit var exerciseEntryViewModel: ExerciseEntryViewModel
+    private lateinit var exerciseFactory: ExerciseEntryViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +125,28 @@ class ManualEntry : AppCompatActivity() {
 
         myDialog.show(supportFragmentManager, null)
     }
+
+    private fun saveDatatoDatabase(){
+        database = ExerciseEntryDatabase.getInstance(this)
+        databaseDao = database.exerciseEntryDatabaseDao
+        repository = ExerciseEntryRepository(databaseDao)
+        exerciseFactory = ExerciseEntryViewModelFactory(repository)
+        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        val exerciseEntryObj = ExerciseEntry()
+
+        exerciseEntryObj.inputType = INPUT_TYPE_POSITION
+        exerciseEntryObj.activityType = ACTIVITY_TYPE
+        exerciseEntryObj.dateTime = DATE_SELECTED + TIME_SELECTED
+        exerciseEntryObj.duration = DURATION_ENTERED.toInt()
+        exerciseEntryObj.distance = DISTANCE_ENTERED.toFloat()
+        exerciseEntryObj.calorie = CALORIES_ENTERED.toFloat()
+        exerciseEntryObj.heartrate = HEARTRATE_ENTERED.toInt()
+        exerciseEntryObj.comment = COMMENT_ENTERED
+        exerciseEntryViewModel.insert(exerciseEntryObj)
+
+    }
     fun OnButtonSave(view: View) {
+        saveDatatoDatabase()
         finish()
     }
     fun OnButtonCancel(view: View) {
