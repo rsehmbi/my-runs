@@ -35,7 +35,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val key = preference?.getString("units","")
         val unitViewModel = ViewModelProvider(requireActivity())[UnitViewModel::class.java]
         unitViewModel.UNITS = key.toString()
-        println("No the modified unit is" + unitViewModel.UNITS)
     }
 
     override fun onResume() {

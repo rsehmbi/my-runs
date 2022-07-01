@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.R
+import com.example.ramanpreet_sehmbi.UIHelpers.convertMetrics
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 class HistoryListAdapter(private val context: Activity,
@@ -17,7 +18,9 @@ class HistoryListAdapter(private val context: Activity,
                          private val activityType: List<String>,
                          private val datetime: List<String>,
                          private val distance: List<String>,
-                         private val duration: List<String>): ArrayAdapter<String>(context, R.layout.custom_list_item, id)
+                         private val duration: List<String>,
+                         private val metric_system: String,
+): ArrayAdapter<String>(context, R.layout.custom_list_item, id)
 {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
@@ -32,8 +35,8 @@ class HistoryListAdapter(private val context: Activity,
         customeEntryType.text = entryType[position]
         customActivityType.text = activityType[position]
         customDateTime.text = datetime[position]
-        customDistance.text = duration[position]
-        customDuration.text = distance[position]
+        customDistance.text = convertMetrics(distance[position], metric_system)
+        customDuration.text = duration[position]
 
         return rowView
     }

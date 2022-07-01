@@ -19,8 +19,11 @@ fun convertTypeIntToString(position: String): String {
     return position
 }
 
-fun kilometerConversion(activity: Activity){
-    val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
-    val units = sharedPref.getString("units", "")
-    Toast.makeText(activity, "${units}", Toast.LENGTH_SHORT).show()
+fun convertMetrics(kilometers: String, metric_system:String): String {
+    if (metric_system.contains("imperial")){
+        var miles = kilometers.toFloat()
+        miles *= 0.621371f
+        return "$miles Miles"
+    }
+    return "$kilometers Kilometers"
 }
