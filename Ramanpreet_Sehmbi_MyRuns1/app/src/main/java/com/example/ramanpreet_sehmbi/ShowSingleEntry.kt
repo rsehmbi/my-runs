@@ -6,7 +6,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.Database.*
+import com.example.ramanpreet_sehmbi.UIHelpers.convertMetrics
 import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
+import com.example.ramanpreet_sehmbi.UIHelpers.getCalorieString
+import com.example.ramanpreet_sehmbi.UIHelpers.getHeartRateString
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 class ShowSingleEntry : AppCompatActivity() {
     var entryId: String = ""
@@ -26,26 +30,31 @@ class ShowSingleEntry : AppCompatActivity() {
         val durationEditText = findViewById<EditText>(R.id.duration_id)
         val distanceEditText = findViewById<EditText>(R.id.distance_id)
         val caloriesEditText = findViewById<EditText>(R.id.calories_id)
+        val heartRateEditText = findViewById<EditText>(R.id.heart_rate_id)
 
         database = ExerciseEntryDatabase.getInstance(this)
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
-        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
-        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(this){
+        exerciseEntryViewModel =
+            ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
+        val units = unitViewModel.UNITS
+
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(this) {
             val extras = intent.extras
             if (extras != null) {
                 entryId = extras.getString("EXERCISE_ENTRY_ID").toString()
             }
-            Toast.makeText(this, "The entry id" + entryId, Toast.LENGTH_SHORT).show()
             for (entry in it) {
-                if(entry.id.toString() == entryId){
+                if (entry.id.toString() == entryId) {
                     inputEditText.setText(convertTypeIntToString(entry.inputType.toString()))
                     AcitivityEditText.setText(entry.activityType)
                     dateTimeEditText.setText(entry.dateTime)
                     durationEditText.setText(entry.duration.toString())
-                    distanceEditText.setText(entry.distance.toString())
-                    caloriesEditText.setText(entry.calorie.toString())
+                    distanceEditText.setText(convertMetrics(entry.distance.toString(), units))
+                    caloriesEditText.setText(getCalorieString(entry.calorie.toString()))
+                    heartRateEditText.setText(getHeartRateString(entry.heartrate.toString()))
                 }
             }
         }
@@ -55,5 +64,6 @@ class ShowSingleEntry : AppCompatActivity() {
         durationEditText.setEnabled(false);
         distanceEditText.setEnabled(false);
         caloriesEditText.setEnabled(false);
+        heartRateEditText.setEnabled(false);
     }
 }

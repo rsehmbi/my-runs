@@ -1,11 +1,5 @@
 package com.example.ramanpreet_sehmbi.UIHelpers
 
-import android.app.Activity
-import android.content.SharedPreferences
-import android.widget.Toast
-import androidx.preference.PreferenceManager
-
-
 fun convertTypeIntToString(position: String): String {
     val position_int = position.toInt()
     val entrytype = arrayOf<String>(
@@ -13,14 +7,32 @@ fun convertTypeIntToString(position: String): String {
         "GPS",
         "Automatic",
     )
-    if (position_int >= 0 && position_int < 3){
+    if (position_int in 0..2) {
         return entrytype[position_int]
     }
     return position
 }
 
-fun kilometerConversion(activity: Activity){
-    val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
-    val units = sharedPref.getString("units", "")
-    Toast.makeText(activity, "${units}", Toast.LENGTH_SHORT).show()
+fun getHeartRateString(heartRate: String): String {
+    return "$heartRate bpm"
 }
+
+fun getCalorieString(cals: String): String {
+    return "$cals cals"
+}
+
+fun convertMetrics(kilometers: String, metric_system: String): String {
+    if (metric_system.contains("imperial")) {
+        var miles = kilometers.toFloat()
+        miles *= 0.621371f
+        return "$miles Miles"
+    }
+    return "$kilometers Kilometers"
+}
+
+fun convertMilesToKM(miles: String, metric_system: String): String {
+
+
+    return miles
+}
+

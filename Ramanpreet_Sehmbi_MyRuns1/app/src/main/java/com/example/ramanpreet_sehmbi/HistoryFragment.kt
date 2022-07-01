@@ -33,26 +33,34 @@ class HistoryFragment : Fragment() {
     private lateinit var exerciseFactory: ExerciseEntryViewModelFactory
     private lateinit var historyView: View
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         historyView = inflater.inflate(R.layout.fragment_history, container, false)
         return historyView
     }
 
-    fun refreshFragment(activity: FragmentActivity){
+    fun refreshFragment(activity: FragmentActivity) {
         database = ExerciseEntryDatabase.getInstance(activity)
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
-        exerciseEntryViewModel = ViewModelProvider(activity, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        exerciseEntryViewModel =
+            ViewModelProvider(activity, exerciseFactory).get(ExerciseEntryViewModel::class.java)
 
-        var unitViewModel = ViewModelProvider(activity)[UnitViewModel::class.java]
-        println("The unit is"+ unitViewModel.UNITS)
-        println("The modified unit is"+ unitViewModel.UNITS)
+        val sharedPref: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
+        val units = sharedPref.getString("units", "")
+        val unitViewModel = ViewModelProvider(activity)[UnitViewModel::class.java]
+        if (units != null) {
+            unitViewModel.UNITS = units
+        }
 
-        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(activity){
-            println("Do i come here")
-            for (entry in it){
-                if (!id.contains(entry.id.toString())){
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(activity) {
+            for (entry in it) {
+                if (!id.contains(entry.id.toString())) {
                     id.add(entry.id.toString())
                     entryType.add(convertTypeIntToString(entry.inputType.toString()))
                     activityType.add(entry.activityType)
@@ -61,22 +69,23 @@ class HistoryFragment : Fragment() {
                     duration.add(entry.duration.toString())
                 }
             }
-            val myListAdapter = HistoryListAdapter(activity,
+            val myListAdapter = HistoryListAdapter(
+                activity,
                 id,
                 entryType,
                 activityType,
                 datetime,
                 distance,
-                duration
+                duration,
+                unitViewModel.UNITS,
             )
             val listView = historyView.findViewById<ListView>(R.id.history_list_id)
             listView.adapter = myListAdapter
-            listView.setOnItemClickListener(){adapterView, view, position, id ->
+            listView.setOnItemClickListener() { adapterView, view, position, id ->
                 val clickedItemId = adapterView.getItemAtPosition(position)
                 val itemIdAtPos = adapterView.getItemIdAtPosition(position)
 
                 val currentEntryID: String = clickedItemId.toString()
-                // Bug could be here
                 val intent = Intent(activity, ShowSingleEntry::class.java)
                 intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
                 startActivity(intent)
@@ -84,13 +93,6 @@ class HistoryFragment : Fragment() {
                 println("Click on item at $clickedItemId its item id $itemIdAtPos")
             }
         }
-        Toast.makeText(activity, "I am in Hello", Toast.LENGTH_SHORT).show()
+
     }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(requireContext(), "onResume", Toast.LENGTH_SHORT).show()
-    }
-
-
 }

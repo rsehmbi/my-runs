@@ -9,7 +9,10 @@ import com.example.ramanpreet_sehmbi.Home.Companion.historyFragment
 
 
 // Using class tutorial
-class TabsFragmentStateAdapter(var activity: FragmentActivity, var fragmentList: ArrayList<Fragment>):FragmentStateAdapter(activity) {
+class TabsFragmentStateAdapter(
+    var activity: FragmentActivity,
+    var fragmentList: ArrayList<Fragment>
+) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
         return fragmentList.size
     }
@@ -19,7 +22,7 @@ class TabsFragmentStateAdapter(var activity: FragmentActivity, var fragmentList:
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 1){
+        if (position == 1) {
             historyFragment.refreshFragment(activity)
         }
         return super.getItemViewType(position)

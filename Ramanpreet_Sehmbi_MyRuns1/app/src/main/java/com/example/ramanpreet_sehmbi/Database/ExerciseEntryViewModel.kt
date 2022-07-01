@@ -10,23 +10,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) :ViewModel(){
+class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) : ViewModel() {
 
-    val allExerciseEntriesLiveData: LiveData<List<ExerciseEntry>> = repository.allExerciseEntries.asLiveData()
+    val allExerciseEntriesLiveData: LiveData<List<ExerciseEntry>> =
+        repository.allExerciseEntries.asLiveData()
 
     fun insert(exerciseEntry: ExerciseEntry) {
         repository.insert(exerciseEntry)
     }
 
-    fun deleteFirst(){
+    fun deleteFirst() {
         val exerciseList = allExerciseEntriesLiveData.value
-        if (exerciseList != null && exerciseList.size > 0){
+        if (exerciseList != null && exerciseList.size > 0) {
             val id = exerciseList[0].id
             repository.delete(id)
         }
     }
 
-    fun deleteAll(){
+    fun deleteAll() {
         val exerciseList = allExerciseEntriesLiveData.value
         if (exerciseList != null && exerciseList.size > 0)
             repository.deleteAll()
@@ -34,10 +35,11 @@ class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) :V
 
 }
 
-class ExerciseEntryViewModelFactory(private val repository: ExerciseEntryRepository): ViewModelProvider.Factory {
+class ExerciseEntryViewModelFactory(private val repository: ExerciseEntryRepository) :
+    ViewModelProvider.Factory {
 
-    override fun<T: ViewModel> create (modelClass: Class<T>) : T{
-        if(modelClass.isAssignableFrom(ExerciseEntryViewModel::class.java))
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(ExerciseEntryViewModel::class.java))
             return ExerciseEntryViewModel(repository) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }

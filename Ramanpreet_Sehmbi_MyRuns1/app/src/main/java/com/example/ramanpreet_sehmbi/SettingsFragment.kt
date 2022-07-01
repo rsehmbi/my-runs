@@ -11,7 +11,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -19,11 +20,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         val key = preference.key.toString()
-        if(key == "user_profile"){
+        if (key == "user_profile") {
             val userProfileIntent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(userProfileIntent)
-        }
-        else if (key == "webpage"){
+        } else if (key == "webpage") {
             val webpageIntent = Intent(Intent.ACTION_VIEW)
             webpageIntent.data = Uri.parse("https://www.sfu.ca/computing.html")
             startActivity(webpageIntent)
@@ -32,10 +32,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(preference: SharedPreferences?, p1: String?) {
-        val key = preference?.getString("units","")
+        val key = preference?.getString("units", "")
         val unitViewModel = ViewModelProvider(requireActivity())[UnitViewModel::class.java]
         unitViewModel.UNITS = key.toString()
-        println("No the modified unit is" + unitViewModel.UNITS)
     }
 
     override fun onResume() {

@@ -8,29 +8,29 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 
-class CameraGalleryDialog: DialogFragment(), DialogInterface.OnClickListener {
+class CameraGalleryDialog : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
-        var CAMERA:String = "camera"
-        var GALLERY:String = "gallery"
+        var CAMERA: String = "camera"
+        var GALLERY: String = "gallery"
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         lateinit var dialog: Dialog
         val options = arrayOf<CharSequence>("Open Camera", "Select from Gallery")
         val builder = AlertDialog.Builder(requireActivity())
         builder.setTitle("Pick Profile Picture")
-        builder.setItems(options,this)
+        builder.setItems(options, this)
         dialog = builder.create()
         return dialog
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
         val selectedDateBundle = Bundle()
-        if(p1 == 0){
+        if (p1 == 0) {
             selectedDateBundle.putString("OPTION_SELECTED", CAMERA)
-        }
-        else if (p1 == 1){
+        } else if (p1 == 1) {
             selectedDateBundle.putString("OPTION_SELECTED", GALLERY)
         }
-        setFragmentResult("OPTION_REQUEST_KEY",selectedDateBundle)
+        setFragmentResult("OPTION_REQUEST_KEY", selectedDateBundle)
     }
 }

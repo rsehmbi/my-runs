@@ -13,6 +13,7 @@ class GPS : AppCompatActivity() {
     fun OnButtonSave(view: View) {
         finish()
     }
+
     fun OnButtonCancel(view: View) {
         finish()
     }
