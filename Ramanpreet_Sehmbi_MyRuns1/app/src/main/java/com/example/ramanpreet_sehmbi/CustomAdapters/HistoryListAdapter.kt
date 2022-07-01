@@ -2,10 +2,14 @@ package com.example.ramanpreet_sehmbi.CustomAdapters
 
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.R
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 class HistoryListAdapter(private val context: Activity,
                          private val id: List<String>,

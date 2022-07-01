@@ -1,18 +1,24 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ramanpreet_sehmbi.Database.*
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class Home : AppCompatActivity() {
 
     private lateinit var startFragment: Start
-    private lateinit var historyFragment: HistoryFragment
+    companion object{
+        lateinit var historyFragment: HistoryFragment
+    }
     private lateinit var settingsFragment: SettingsFragment
 
     private lateinit var tabs: ArrayList<Fragment>
@@ -49,6 +55,7 @@ class Home : AppCompatActivity() {
             tab.text = TAB_TEXT[position]
         }
         tabLayoutMediator = TabLayoutMediator(hometabs, viewPager, tabConfigurationStrategy)
+
         tabLayoutMediator.attach()
     }
 
@@ -56,4 +63,6 @@ class Home : AppCompatActivity() {
         super.onDestroy()
         tabLayoutMediator.detach()
     }
+
+
 }
