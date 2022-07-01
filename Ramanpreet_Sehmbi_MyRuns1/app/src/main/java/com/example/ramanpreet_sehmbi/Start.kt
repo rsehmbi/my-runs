@@ -18,6 +18,9 @@ class Start : Fragment(){
     lateinit var startButton: Button
 
     var INPUTTYPE = "Manual Entry"
+    var INPUTTYPEPOSITION = 0
+
+    var ACTIVITYTYPE = ""
 
     lateinit var saveButton: Button
     private lateinit var database: ExerciseEntryDatabase
@@ -44,6 +47,7 @@ class Start : Fragment(){
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val type = parent?.getItemAtPosition(position).toString()
                 INPUTTYPE = type
+                INPUTTYPEPOSITION = position
             }
 
         }
@@ -57,14 +61,19 @@ class Start : Fragment(){
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                //TODO: Requirement not specified yet.
+                val activitytype = parent?.getItemAtPosition(position).toString()
+                ACTIVITYTYPE = activitytype
             }
         }
 
         startButton = fragmentStartView.findViewById(R.id.start_button_id)
         startButton.setOnClickListener(){
             if(INPUTTYPE == "Manual Entry"){
-                startActivity(Intent(activity, ManualEntry::class.java))
+                val manualEntryIntent = Intent(activity, ManualEntry::class.java)
+                manualEntryIntent.putExtra("INPUT_TYPE", INPUTTYPE)
+                manualEntryIntent.putExtra("INPUT_TYPE_POSITION", INPUTTYPEPOSITION)
+                manualEntryIntent.putExtra("ACTIVITY_TYPE", ACTIVITYTYPE)
+                startActivity(manualEntryIntent)
             }
             else{
                 startActivity(Intent(activity, GPS::class.java))
