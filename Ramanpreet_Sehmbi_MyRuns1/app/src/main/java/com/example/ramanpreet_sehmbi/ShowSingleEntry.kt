@@ -39,15 +39,21 @@ class ShowSingleEntry : AppCompatActivity() {
             }
             for (entry in it) {
                 if(entry.id.toString() == entryId){
-                    inputEditText.setText(entry.inputType.toString(), TextView.BufferType.EDITABLE);
-                    AcitivityEditText.setText(entry.activityType, TextView.BufferType.EDITABLE);
-                    dateTimeEditText.setText(entry.dateTime, TextView.BufferType.EDITABLE);
-                    durationEditText.setText(entry.duration.toString(), TextView.BufferType.EDITABLE);
-                    distanceEditText.setText(entry.distance.toString(), TextView.BufferType.EDITABLE);
-                    caloriesEditText.setText(entry.calorie.toString(), TextView.BufferType.EDITABLE);
+                    inputEditText.setText(entry.inputType.toString())
+                    AcitivityEditText.setText(entry.activityType)
+                    dateTimeEditText.setText(entry.dateTime)
+                    durationEditText.setText(entry.duration.toString())
+                    distanceEditText.setText(entry.distance.toString())
+                    caloriesEditText.setText(entry.calorie.toString())
                 }
             }
+            Toast.makeText(this, "The entry id" + entryId, Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "The entry id" + entryId, Toast.LENGTH_SHORT).show()
+        inputEditText.setEnabled(false);
+        AcitivityEditText.setEnabled(false);
+        dateTimeEditText.setEnabled(false);
+        durationEditText.setEnabled(false);
+        distanceEditText.setEnabled(false);
+        caloriesEditText.setEnabled(false);
     }
 }
