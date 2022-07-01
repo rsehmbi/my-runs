@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.Database.*
+import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
 
 class ShowSingleEntry : AppCompatActivity() {
     var entryId: String = ""
@@ -37,9 +38,10 @@ class ShowSingleEntry : AppCompatActivity() {
             if (extras != null) {
                 entryId = extras.getString("EXERCISE_ENTRY_ID").toString()
             }
+            Toast.makeText(this, "The entry id" + entryId, Toast.LENGTH_SHORT).show()
             for (entry in it) {
                 if(entry.id.toString() == entryId){
-                    inputEditText.setText(entry.inputType.toString())
+                    inputEditText.setText(convertTypeIntToString(entry.inputType.toString()))
                     AcitivityEditText.setText(entry.activityType)
                     dateTimeEditText.setText(entry.dateTime)
                     durationEditText.setText(entry.duration.toString())
@@ -47,7 +49,6 @@ class ShowSingleEntry : AppCompatActivity() {
                     caloriesEditText.setText(entry.calorie.toString())
                 }
             }
-            Toast.makeText(this, "The entry id" + entryId, Toast.LENGTH_SHORT).show()
         }
         inputEditText.setEnabled(false);
         AcitivityEditText.setEnabled(false);

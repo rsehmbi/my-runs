@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 
 
 class CustomDialog: DialogFragment(), DialogInterface.OnClickListener {
@@ -16,6 +17,8 @@ class CustomDialog: DialogFragment(), DialogInterface.OnClickListener {
         var TITLE_KEY:String = "TITLE"
     }
 
+    var DIALOG_TYPE = ""
+    lateinit var editText: EditText;
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         lateinit var dialog: Dialog
@@ -26,9 +29,10 @@ class CustomDialog: DialogFragment(), DialogInterface.OnClickListener {
         builder.setView(view)
 
         val title = bundle?.get(TITLE_KEY).toString()
+        DIALOG_TYPE = title
         setEditTextProperties(view, title)
         builder.setTitle(title)
-
+        editText = view.findViewById<EditText>(R.id.dialog_edit_text_id)
         builder.setPositiveButton("OK", this)
         builder.setNegativeButton("CANCEL", this)
 
@@ -49,12 +53,24 @@ class CustomDialog: DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onClick(dialog: DialogInterface?, positive_or_negative: Int) {
+        val bundle = Bundle()
         if(positive_or_negative == DialogInterface.BUTTON_POSITIVE){
-            // Requirements not specified yet
-        }
-        else if(positive_or_negative == DialogInterface.BUTTON_NEGATIVE)
-        {
-            // Requirements not specified yet
+            if (DIALOG_TYPE.contains("Duration")){
+                bundle.putString("DURATION_ENTERED", editText.text.toString())
+            }
+            else if (DIALOG_TYPE.contains("Distance")){
+                bundle.putString("DISTANCE_ENTERED", editText.text.toString())
+            }
+            else if (DIALOG_TYPE.contains("Calories")){
+                bundle.putString("CALORIES_ENTERED",  editText.text.toString())
+            }
+            else if (DIALOG_TYPE.contains("Heart")) {
+                bundle.putString("HEARTRATE_ENTERED", editText.text.toString())
+            }
+            else if (DIALOG_TYPE.contains("Comment")){
+                bundle.putString("COMMENT_ENTERED", editText.text.toString())
+            }
+            setFragmentResult("CUSTOM_DIALOG_REQUEST_KEY", bundle)
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.CustomAdapters.HistoryListAdapter
 import com.example.ramanpreet_sehmbi.Database.*
+import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
 
 
 class HistoryFragment : Fragment() {
@@ -40,7 +41,7 @@ class HistoryFragment : Fragment() {
             for (entry in it){
                 if (!id.contains(entry.id.toString())){
                     id.add(entry.id.toString())
-                    entryType.add(entry.inputType.toString())
+                    entryType.add(convertTypeIntToString(entry.inputType.toString()))
                     activityType.add(entry.activityType)
                     datetime.add(entry.dateTime)
                     distance.add(entry.distance.toString())
