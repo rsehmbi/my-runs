@@ -1,8 +1,13 @@
 package com.example.ramanpreet_sehmbi.UIHelpers
 
-public fun convertTypeIntToString(position: String): String {
+import android.app.Activity
+import android.content.SharedPreferences
+import android.widget.Toast
+import androidx.preference.PreferenceManager
+
+
+fun convertTypeIntToString(position: String): String {
     val position_int = position.toInt()
-    println("The positions are "+ position_int)
     val entrytype = arrayOf<String>(
         "Manual Entry",
         "GPS",
@@ -12,4 +17,10 @@ public fun convertTypeIntToString(position: String): String {
         return entrytype[position_int]
     }
     return position
+}
+
+fun kilometerConversion(activity: Activity){
+    val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
+    val units = sharedPref.getString("units", "")
+    Toast.makeText(activity, "${units}", Toast.LENGTH_SHORT).show()
 }

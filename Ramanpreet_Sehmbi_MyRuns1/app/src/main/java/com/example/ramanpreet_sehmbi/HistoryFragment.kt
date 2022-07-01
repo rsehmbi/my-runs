@@ -1,16 +1,21 @@
 package com.example.ramanpreet_sehmbi
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.CustomAdapters.HistoryListAdapter
 import com.example.ramanpreet_sehmbi.Database.*
 import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 
 class HistoryFragment : Fragment() {
@@ -26,18 +31,26 @@ class HistoryFragment : Fragment() {
     private lateinit var repository: ExerciseEntryRepository
     private lateinit var exerciseEntryViewModel: ExerciseEntryViewModel
     private lateinit var exerciseFactory: ExerciseEntryViewModelFactory
+    private lateinit var historyView: View
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val historyView = inflater.inflate(R.layout.fragment_history, container, false)
-        database = ExerciseEntryDatabase.getInstance(requireActivity())
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        historyView = inflater.inflate(R.layout.fragment_history, container, false)
+        return historyView
+    }
+
+    fun refreshFragment(activity: FragmentActivity){
+        database = ExerciseEntryDatabase.getInstance(activity)
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
-        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
-        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(requireActivity()){
+        exerciseEntryViewModel = ViewModelProvider(activity, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+
+        var unitViewModel = ViewModelProvider(activity)[UnitViewModel::class.java]
+        println("The unit is"+ unitViewModel.UNITS)
+        println("The modified unit is"+ unitViewModel.UNITS)
+
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(activity){
+            println("Do i come here")
             for (entry in it){
                 if (!id.contains(entry.id.toString())){
                     id.add(entry.id.toString())
@@ -48,7 +61,7 @@ class HistoryFragment : Fragment() {
                     duration.add(entry.duration.toString())
                 }
             }
-            val myListAdapter = HistoryListAdapter(requireActivity(),
+            val myListAdapter = HistoryListAdapter(activity,
                 id,
                 entryType,
                 activityType,
@@ -63,13 +76,21 @@ class HistoryFragment : Fragment() {
                 val itemIdAtPos = adapterView.getItemIdAtPosition(position)
 
                 val currentEntryID: String = clickedItemId.toString()
-                val intent = Intent(requireContext(), ShowSingleEntry::class.java)
+                // Bug could be here
+                val intent = Intent(activity, ShowSingleEntry::class.java)
                 intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
                 startActivity(intent)
 
                 println("Click on item at $clickedItemId its item id $itemIdAtPos")
             }
         }
-        return historyView
+        Toast.makeText(activity, "I am in Hello", Toast.LENGTH_SHORT).show()
     }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(requireContext(), "onResume", Toast.LENGTH_SHORT).show()
+    }
+
+
 }
