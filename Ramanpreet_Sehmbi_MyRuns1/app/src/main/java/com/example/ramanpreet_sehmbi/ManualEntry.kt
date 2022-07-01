@@ -99,7 +99,6 @@ class ManualEntry : AppCompatActivity() {
             resultkey, bundle ->
             if (resultkey == "DATE_REQUEST_KEY"){
                 DATE_SELECTED = bundle.get("DATE_SELECTED").toString()
-                Toast.makeText(this, "${DATE_SELECTED}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -111,7 +110,6 @@ class ManualEntry : AppCompatActivity() {
                 resultkey, bundle ->
             if (resultkey == "TIME_REQUEST_KEY"){
                 TIME_SELECTED = bundle.get("TIME_SELECTED").toString()
-                Toast.makeText(this, "${TIME_SELECTED}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -136,7 +134,7 @@ class ManualEntry : AppCompatActivity() {
 
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
         exerciseEntryObj.activityType = ACTIVITY_TYPE
-        exerciseEntryObj.dateTime = DATE_SELECTED + TIME_SELECTED
+        exerciseEntryObj.dateTime = "$DATE_SELECTED $TIME_SELECTED"
         exerciseEntryObj.duration = DURATION_ENTERED.toInt()
         exerciseEntryObj.distance = DISTANCE_ENTERED.toFloat()
         exerciseEntryObj.calorie = CALORIES_ENTERED.toFloat()

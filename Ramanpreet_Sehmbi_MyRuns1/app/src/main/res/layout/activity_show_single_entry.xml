@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical"
     tools:context=".ShowSingleEntry">
 
@@ -85,6 +86,20 @@
 
     <EditText
         android:id="@+id/calories_id"
+        android:inputType="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Heart Rate">
+    </TextView>
+
+    <EditText
+        android:id="@+id/heart_rate_id"
         android:inputType="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
