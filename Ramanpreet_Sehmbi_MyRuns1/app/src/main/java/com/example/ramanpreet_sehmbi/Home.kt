@@ -16,9 +16,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 class Home : AppCompatActivity() {
 
     private lateinit var startFragment: Start
-    companion object{
+
+    companion object {
         lateinit var historyFragment: HistoryFragment
     }
+
     private lateinit var settingsFragment: SettingsFragment
 
     private lateinit var tabs: ArrayList<Fragment>
@@ -47,13 +49,13 @@ class Home : AppCompatActivity() {
         hometabs = findViewById(R.id.home_tabs_id)
         viewPager = findViewById(R.id.home_view_pager_id)
 
-        tabLayoutStateAdapter = TabsFragmentStateAdapter(this,tabs)
+        tabLayoutStateAdapter = TabsFragmentStateAdapter(this, tabs)
         viewPager.adapter = tabLayoutStateAdapter
 
-        tabConfigurationStrategy = TabLayoutMediator.TabConfigurationStrategy(){
-                tab: TabLayout.Tab, position:Int ->
-            tab.text = TAB_TEXT[position]
-        }
+        tabConfigurationStrategy =
+            TabLayoutMediator.TabConfigurationStrategy() { tab: TabLayout.Tab, position: Int ->
+                tab.text = TAB_TEXT[position]
+            }
         tabLayoutMediator = TabLayoutMediator(hometabs, viewPager, tabConfigurationStrategy)
 
         tabLayoutMediator.attach()

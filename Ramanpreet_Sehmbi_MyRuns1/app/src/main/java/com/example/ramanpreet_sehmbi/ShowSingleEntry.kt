@@ -36,17 +36,18 @@ class ShowSingleEntry : AppCompatActivity() {
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
-        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        exerciseEntryViewModel =
+            ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
         val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
         val units = unitViewModel.UNITS
 
-        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(this){
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(this) {
             val extras = intent.extras
             if (extras != null) {
                 entryId = extras.getString("EXERCISE_ENTRY_ID").toString()
             }
             for (entry in it) {
-                if(entry.id.toString() == entryId){
+                if (entry.id.toString() == entryId) {
                     inputEditText.setText(convertTypeIntToString(entry.inputType.toString()))
                     AcitivityEditText.setText(entry.activityType)
                     dateTimeEditText.setText(entry.dateTime)

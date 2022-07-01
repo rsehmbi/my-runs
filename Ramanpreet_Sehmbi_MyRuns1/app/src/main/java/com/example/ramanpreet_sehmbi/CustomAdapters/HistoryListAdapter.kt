@@ -12,16 +12,16 @@ import com.example.ramanpreet_sehmbi.R
 import com.example.ramanpreet_sehmbi.UIHelpers.convertMetrics
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
-class HistoryListAdapter(private val context: Activity,
-                         private val id: List<String>,
-                         private val entryType: List<String>,
-                         private val activityType: List<String>,
-                         private val datetime: List<String>,
-                         private val distance: List<String>,
-                         private val duration: List<String>,
-                         private val metric_system: String,
-): ArrayAdapter<String>(context, R.layout.custom_list_item, id)
-{
+class HistoryListAdapter(
+    private val context: Activity,
+    private val id: List<String>,
+    private val entryType: List<String>,
+    private val activityType: List<String>,
+    private val datetime: List<String>,
+    private val distance: List<String>,
+    private val duration: List<String>,
+    private val metric_system: String,
+) : ArrayAdapter<String>(context, R.layout.custom_list_item, id) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.custom_list_item, null, true)

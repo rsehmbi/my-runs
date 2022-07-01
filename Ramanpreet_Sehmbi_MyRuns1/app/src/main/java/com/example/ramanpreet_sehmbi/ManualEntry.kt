@@ -49,72 +49,76 @@ class ManualEntry : AppCompatActivity() {
         println("Activity Type is " + INPUT_TYPE)
     }
 
-    fun setUpManualEntriesList(){
+    fun setUpManualEntriesList() {
         manualEntries = findViewById(R.id.manual_list_id)
-        val manualEntriesAdapter = ArrayAdapter.createFromResource(this, R.array.manual_list_items, android.R.layout.simple_list_item_1);
+        val manualEntriesAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.manual_list_items,
+            android.R.layout.simple_list_item_1
+        );
         manualEntries.adapter = manualEntriesAdapter
-        manualEntries.onItemClickListener = AdapterView.OnItemClickListener {
-                parent, view, position, id ->
-            val selectedItemText = parent.getItemAtPosition(position).toString()
-            if (selectedItemText == "Date"){
-                handleDateClicked()
+        manualEntries.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedItemText = parent.getItemAtPosition(position).toString()
+                if (selectedItemText == "Date") {
+                    handleDateClicked()
+                } else if (selectedItemText == "Time") {
+                    handleTimeClicked()
+                } else {
+                    showPopUpDialog(selectedItemText)
+                    handleDialogResult()
+                }
             }
-            else if (selectedItemText == "Time"){
-                handleTimeClicked()
-            }
-            else{
-                showPopUpDialog(selectedItemText)
-                handleDialogResult()
-            }
-        }
     }
 
-    fun handleDialogResult(){
-        supportFragmentManager.setFragmentResultListener("CUSTOM_DIALOG_REQUEST_KEY", this){
-                resultkey, bundle ->
+    fun handleDialogResult() {
+        supportFragmentManager.setFragmentResultListener(
+            "CUSTOM_DIALOG_REQUEST_KEY",
+            this
+        ) { resultkey, bundle ->
             if (resultkey == "CUSTOM_DIALOG_REQUEST_KEY") {
-                if (bundle.containsKey("DISTANCE_ENTERED")){
+                if (bundle.containsKey("DISTANCE_ENTERED")) {
                     DISTANCE_ENTERED = bundle.get("DISTANCE_ENTERED").toString()
-                }
-                else if (bundle.containsKey("DURATION_ENTERED")){
+                } else if (bundle.containsKey("DURATION_ENTERED")) {
                     DURATION_ENTERED = bundle.get("DURATION_ENTERED").toString()
-                }
-                else if (bundle.containsKey("CALORIES_ENTERED")){
+                } else if (bundle.containsKey("CALORIES_ENTERED")) {
                     CALORIES_ENTERED = bundle.get("CALORIES_ENTERED").toString()
-                }
-                else if (bundle.containsKey("HEARTRATE_ENTERED")){
+                } else if (bundle.containsKey("HEARTRATE_ENTERED")) {
                     HEARTRATE_ENTERED = bundle.get("HEARTRATE_ENTERED").toString()
-                }
-                else if (bundle.containsKey("COMMENT_ENTERED")){
+                } else if (bundle.containsKey("COMMENT_ENTERED")) {
                     COMMENT_ENTERED = bundle.get("COMMENT_ENTERED").toString()
                 }
             }
         }
     }
 
-    fun handleDateClicked(){
+    fun handleDateClicked() {
         val datePickerFragment = com.example.ramanpreet_sehmbi.DatePicker()
         datePickerFragment.show(supportFragmentManager, null)
-        supportFragmentManager.setFragmentResultListener("DATE_REQUEST_KEY", this){
-            resultkey, bundle ->
-            if (resultkey == "DATE_REQUEST_KEY"){
+        supportFragmentManager.setFragmentResultListener(
+            "DATE_REQUEST_KEY",
+            this
+        ) { resultkey, bundle ->
+            if (resultkey == "DATE_REQUEST_KEY") {
                 DATE_SELECTED = bundle.get("DATE_SELECTED").toString()
             }
         }
     }
 
-    fun handleTimeClicked(){
+    fun handleTimeClicked() {
         val timePickerFragment = com.example.ramanpreet_sehmbi.TimePicker()
         timePickerFragment.show(supportFragmentManager, null)
-        supportFragmentManager.setFragmentResultListener("TIME_REQUEST_KEY", this){
-                resultkey, bundle ->
-            if (resultkey == "TIME_REQUEST_KEY"){
+        supportFragmentManager.setFragmentResultListener(
+            "TIME_REQUEST_KEY",
+            this
+        ) { resultkey, bundle ->
+            if (resultkey == "TIME_REQUEST_KEY") {
                 TIME_SELECTED = bundle.get("TIME_SELECTED").toString()
             }
         }
     }
 
-    fun showPopUpDialog(selectedItemText:String){
+    fun showPopUpDialog(selectedItemText: String) {
         val myDialog = CustomDialog()
         val bundle = Bundle()
 
@@ -124,12 +128,13 @@ class ManualEntry : AppCompatActivity() {
         myDialog.show(supportFragmentManager, null)
     }
 
-    private fun saveDatatoDatabase(){
+    private fun saveDatatoDatabase() {
         database = ExerciseEntryDatabase.getInstance(this)
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
-        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        exerciseEntryViewModel =
+            ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
         val exerciseEntryObj = ExerciseEntry()
 
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
@@ -143,10 +148,12 @@ class ManualEntry : AppCompatActivity() {
         exerciseEntryViewModel.insert(exerciseEntryObj)
 
     }
+
     fun OnButtonSave(view: View) {
         saveDatatoDatabase()
         finish()
     }
+
     fun OnButtonCancel(view: View) {
         Toast.makeText(this, "Entry Discarded", Toast.LENGTH_SHORT).show()
         finish()

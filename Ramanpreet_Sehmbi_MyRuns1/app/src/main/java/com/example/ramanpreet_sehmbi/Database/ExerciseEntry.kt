@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@Entity(tableName= "exercise_entry_table")
+@Entity(tableName = "exercise_entry_table")
 data class ExerciseEntry(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,

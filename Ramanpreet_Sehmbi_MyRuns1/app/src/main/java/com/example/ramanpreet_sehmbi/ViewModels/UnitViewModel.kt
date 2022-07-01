@@ -5,6 +5,6 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 
-class UnitViewModel(): ViewModel() {
+class UnitViewModel() : ViewModel() {
     var UNITS = "metric"
 }
