@@ -17,7 +17,7 @@ abstract class ExerciseEntryDatabase: RoomDatabase() {
             synchronized(this){
                 var instance = INSTANCE
                 if (instance == null){
-                    instance = Room.databaseBuilder(context.applicationContext, ExerciseEntryDatabase::class.java, "exercise_entry_table").build()
+                    instance = Room.databaseBuilder(context.applicationContext, ExerciseEntryDatabase::class.java, "exercise_entry_db").build()
                     INSTANCE=instance
                 }
                 return instance

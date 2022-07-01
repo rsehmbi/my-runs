@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.ramanpreet_sehmbi.Database.*
 
 
 class Start : Fragment(){
@@ -16,6 +18,14 @@ class Start : Fragment(){
     lateinit var startButton: Button
 
     var INPUTTYPE = "Manual Entry"
+
+    lateinit var saveButton: Button
+    private lateinit var database: ExerciseEntryDatabase
+    private lateinit var databaseDao: ExerciseEntryDatabaseDao
+    private lateinit var repository: ExerciseEntryRepository
+    private lateinit var exerciseEntryViewModel: ExerciseEntryViewModel
+    private lateinit var exerciseFactory: ExerciseEntryViewModelFactory
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +71,32 @@ class Start : Fragment(){
             }
         }
 
+        // Database test
+        database = ExerciseEntryDatabase.getInstance(requireActivity())
+        databaseDao = database.exerciseEntryDatabaseDao
+        repository = ExerciseEntryRepository(databaseDao)
+        exerciseFactory = ExerciseEntryViewModelFactory(repository)
+        exerciseEntryViewModel = ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(requireActivity()){
+            // Update user interface
+            println("debug: ${it.size}")
+            for (item in it) {
+                println("The item id is " + item.id)
+                println("The calorie is " + item.calorie)
+                println("The comment is " + item.comment)
+                println("The dateTime is " + item.dateTime)
+            }
+        }
+
+        saveButton = fragmentStartView.findViewById(R.id.save_button_id)
+        saveButton.setOnClickListener(){
+            val exerciseEntryObj = ExerciseEntry()
+            exerciseEntryObj.calorie = 150f
+            exerciseEntryObj.comment = "testComment"
+            exerciseEntryObj.dateTime = "8-09-21"
+            exerciseEntryViewModel.insert(exerciseEntryObj)
+        }
 
         return fragmentStartView
     }
