@@ -1,18 +1,15 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.CustomAdapters.HistoryListAdapter
 import com.example.ramanpreet_sehmbi.Database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class HistoryFragment : Fragment() {
@@ -61,9 +58,15 @@ class HistoryFragment : Fragment() {
             val listView = historyView.findViewById<ListView>(R.id.history_list_id)
             listView.adapter = myListAdapter
             listView.setOnItemClickListener(){adapterView, view, position, id ->
-                val itemAtPos = adapterView.getItemAtPosition(position)
+                val clickedItemId = adapterView.getItemAtPosition(position)
                 val itemIdAtPos = adapterView.getItemIdAtPosition(position)
-                Toast.makeText(requireContext(), "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
+
+                val currentEntryID: String = clickedItemId.toString()
+                val intent = Intent(requireContext(), ShowSingleEntry::class.java)
+                intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
+                startActivity(intent)
+
+                println("Click on item at $clickedItemId its item id $itemIdAtPos")
             }
         }
         return historyView

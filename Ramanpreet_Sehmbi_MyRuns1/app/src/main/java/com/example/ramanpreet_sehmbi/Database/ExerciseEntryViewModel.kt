@@ -32,19 +32,6 @@ class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) :V
             repository.deleteAll()
     }
 
-     fun showAll(): List<ExerciseEntry> {
-        val resultList :MutableList<ExerciseEntry> = mutableListOf()
-        val exerciseList = allExerciseEntriesLiveData.value
-        if (exerciseList != null && exerciseList.size > 0)
-            CoroutineScope(Dispatchers.IO).launch{
-                println(" i am inside coroutine")
-                repository.allExerciseEntries.collect{
-                    resultList.addAll(it)
-                }
-            }
-        return resultList
-    }
-
 }
 
 class ExerciseEntryViewModelFactory(private val repository: ExerciseEntryRepository): ViewModelProvider.Factory {
