@@ -13,8 +13,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        val key = preference!!.key.toString()
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        val key = preference.key.toString()
         if(key == "user_profile"){
             val userProfileIntent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(userProfileIntent)

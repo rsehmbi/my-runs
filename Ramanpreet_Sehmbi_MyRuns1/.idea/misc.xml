@@ -7,9 +7,12 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.24324324324324326" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/activity_manual_entry.xml" value="0.26927083333333335" />
+        <entry key="app/src/main/res/layout/activity_show_single_entry.xml" value="0.22708333333333333" />
+        <entry key="app/src/main/res/layout/custom_list_item.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/fragment_custom_dialog.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/layout/fragment_start.xml" value="0.29739583333333336" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2785" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.2635416666666667" />
       </map>
     </option>
