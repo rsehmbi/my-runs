@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.example.ramanpreet_sehmbi.Database.ExerciseEntryViewModel
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -34,7 +35,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onSharedPreferenceChanged(preference: SharedPreferences?, p1: String?) {
         val key = preference?.getString("units", "")
         val unitViewModel = ViewModelProvider(requireActivity())[UnitViewModel::class.java]
+        val exerciseViewModel = ViewModelProvider(requireActivity())[ExerciseEntryViewModel::class.java]
         unitViewModel.UNITS = key.toString()
+        val list = exerciseViewModel.allExerciseEntriesLiveData.value
+        if(list != null){
+            exerciseViewModel.updateMetric(unitViewModel.UNITS, list.get(0).id )
+        }
     }
 
     override fun onResume() {

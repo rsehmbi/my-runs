@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.Database.*
 import com.example.ramanpreet_sehmbi.UIHelpers.*
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
@@ -38,8 +40,11 @@ class ShowSingleEntry : AppCompatActivity() {
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
         exerciseEntryViewModel =
             ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+        val sharedPref: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())
+        val units = sharedPref.getString("units", "kilometers")
         val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
-        val units = unitViewModel.UNITS
+        unitViewModel.UNITS = units.toString()
 
         exerciseEntryViewModel.allExerciseEntriesLiveData.observe(this) {
             val extras = intent.extras
@@ -52,7 +57,7 @@ class ShowSingleEntry : AppCompatActivity() {
                     AcitivityEditText.setText(entry.activityType)
                     dateTimeEditText.setText(entry.dateTime)
                     durationEditText.setText(convertIntToTime(entry.duration))
-                    distanceEditText.setText(convertMetrics(entry.distance.toString(), units))
+                    distanceEditText.setText(convertMetrics(entry.distance.toString(), unitViewModel.UNITS))
                     caloriesEditText.setText(getCalorieString(entry.calorie.toString()))
                     heartRateEditText.setText(getHeartRateString(entry.heartrate.toString()))
                 }

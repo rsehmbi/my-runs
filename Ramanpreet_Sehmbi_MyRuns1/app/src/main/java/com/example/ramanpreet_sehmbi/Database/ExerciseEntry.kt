@@ -47,6 +47,8 @@ data class ExerciseEntry(
     @ColumnInfo(name = "comment_column")
     var comment: String = "",
 
+    @ColumnInfo(name = "metric_info")
+    var metric_info: String = "",
 //    @ColumnInfo(name = "location_list_column")
 //    var locationList: ArrayList<LatLng>,
 )

@@ -17,6 +17,9 @@ interface ExerciseEntryDatabaseDao {
     @Query("DELETE FROM exercise_entry_table")
     suspend fun deleteAll()
 
+    @Query("UPDATE exercise_entry_table set metric_info= :metric WHERE id= :key")
+    suspend fun updateMetric(metric: String, key:Long)
+
     @Query("DELETE FROM exercise_entry_table WHERE id= :key")
     suspend fun deleteExerciseEntry(key: Long)
 }

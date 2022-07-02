@@ -22,6 +22,12 @@ class ExerciseEntryRepository(private val exerciseEntryDatabaseDao: ExerciseEntr
         }
     }
 
+    fun updateMetric(metric: String, key: Long) {
+        CoroutineScope(IO).launch {
+            exerciseEntryDatabaseDao.updateMetric(metric, key)
+        }
+    }
+
     fun deleteAll() {
         CoroutineScope(IO).launch {
             exerciseEntryDatabaseDao.deleteAll()

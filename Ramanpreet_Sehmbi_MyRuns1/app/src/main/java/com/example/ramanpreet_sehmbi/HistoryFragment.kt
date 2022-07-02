@@ -40,25 +40,22 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         historyView = inflater.inflate(R.layout.fragment_history, container, false)
-        return historyView
-    }
 
-    fun refreshFragment(activity: FragmentActivity) {
-        database = ExerciseEntryDatabase.getInstance(activity)
+        database = ExerciseEntryDatabase.getInstance(requireActivity())
         databaseDao = database.exerciseEntryDatabaseDao
         repository = ExerciseEntryRepository(databaseDao)
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
         exerciseEntryViewModel =
-            ViewModelProvider(activity, exerciseFactory).get(ExerciseEntryViewModel::class.java)
+            ViewModelProvider(requireActivity(), exerciseFactory).get(ExerciseEntryViewModel::class.java)
 
         val sharedPref: SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
+            PreferenceManager.getDefaultSharedPreferences(requireActivity().getApplicationContext())
         val units = sharedPref.getString("units", "")
-        val unitViewModel = ViewModelProvider(activity)[UnitViewModel::class.java]
+        val unitViewModel = ViewModelProvider(requireActivity())[UnitViewModel::class.java]
         if (units != null) {
             unitViewModel.UNITS = units
         }
-        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(activity) {
+        exerciseEntryViewModel.allExerciseEntriesLiveData.observe(requireActivity()) {
             id.clear()
             entryType.clear()
             activityType.clear()
@@ -74,7 +71,7 @@ class HistoryFragment : Fragment() {
                 duration.add(entry.duration.toString())
             }
             val myListAdapter = HistoryListAdapter(
-                activity,
+                requireActivity(),
                 id,
                 entryType,
                 activityType,
@@ -98,5 +95,10 @@ class HistoryFragment : Fragment() {
             }
         }
 
+
+        return historyView
+    }
+
+    fun refreshFragment(activity: FragmentActivity) {
     }
 }
