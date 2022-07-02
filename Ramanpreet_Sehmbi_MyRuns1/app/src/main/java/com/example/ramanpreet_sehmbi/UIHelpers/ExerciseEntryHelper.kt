@@ -23,16 +23,16 @@ fun getCalorieString(cals: String): String {
 
 fun convertMetrics(kilometers: String, metric_system: String): String {
     if (metric_system.contains("imperial")) {
-        var miles = kilometers.toFloat()
-        miles *= 0.621371f
+        var miles = (kilometers.toFloat() / 1.609f)
         return "$miles Miles"
     }
     return "$kilometers Kilometers"
 }
 
-fun convertMilesToKM(miles: String, metric_system: String): String {
-
-
-    return miles
+fun convertMilesToKM(distance: Float, metric_system: String): Float {
+    if (metric_system.contains("imperial")) {
+        return distance * 1.609f
+    }
+    return distance
 }
 

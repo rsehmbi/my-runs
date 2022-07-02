@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -8,8 +9,11 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.CustomDialog.Companion.TITLE_KEY
 import com.example.ramanpreet_sehmbi.Database.*
+import com.example.ramanpreet_sehmbi.UIHelpers.convertMilesToKM
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 import java.util.*
 
 
@@ -135,18 +139,25 @@ class ManualEntry : AppCompatActivity() {
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
         exerciseEntryViewModel =
             ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
-        val exerciseEntryObj = ExerciseEntry()
 
+        val sharedPref: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())
+        val units = sharedPref.getString("units", "kilometers")
+        val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
+        unitViewModel.UNITS = units.toString()
+
+
+        Toast.makeText(this, "${units} + ${convertMilesToKM(DISTANCE_ENTERED.toFloat(),units.toString())}", Toast.LENGTH_SHORT).show()
+        val exerciseEntryObj = ExerciseEntry()
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
         exerciseEntryObj.activityType = ACTIVITY_TYPE
         exerciseEntryObj.dateTime = "$DATE_SELECTED $TIME_SELECTED"
         exerciseEntryObj.duration = DURATION_ENTERED.toInt()
-        exerciseEntryObj.distance = DISTANCE_ENTERED.toFloat()
+        exerciseEntryObj.distance = convertMilesToKM(DISTANCE_ENTERED.toFloat(),units.toString())
         exerciseEntryObj.calorie = CALORIES_ENTERED.toFloat()
         exerciseEntryObj.heartrate = HEARTRATE_ENTERED.toInt()
         exerciseEntryObj.comment = COMMENT_ENTERED
         exerciseEntryViewModel.insert(exerciseEntryObj)
-
     }
 
     fun OnButtonSave(view: View) {
