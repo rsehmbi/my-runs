@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class ExerciseEntryRepository(private val exerciseEntryDatabaseDao: ExerciseEntryDatabaseDao) {
-    val allExerciseEntries: Flow<List<ExerciseEntry>> =
+    val allExerciseEntries: Flow<MutableList<ExerciseEntry>> =
         exerciseEntryDatabaseDao.getAllExericiseEntries()
 
 
