@@ -23,7 +23,7 @@ class DatePicker : DialogFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        val selectedDate = "$day-$month-$year"
+        val selectedDate = "${MONTHS_YEAR[month]} $day $year"
         val selectedDateBundle = Bundle()
         selectedDateBundle.putString("DATE_SELECTED", selectedDate)
         setFragmentResult("DATE_REQUEST_KEY", selectedDateBundle)

@@ -43,3 +43,5 @@ val majorListNames = arrayOf(
     "Wildlife & Wildlands Management",
     "Zoology",
 )
+
+val MONTHS_YEAR = arrayOf("Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.","Oct.","Nov.","Dec." )

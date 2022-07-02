@@ -22,7 +22,7 @@ data class ExerciseEntry(
     var dateTime: String = "",
 
     @ColumnInfo(name = "duration_column")
-    var duration: Int = -1,
+    var duration: Float = -1f,
 
     // Will always be stored in kilometers and converted
     // as required on saving and retrieving
