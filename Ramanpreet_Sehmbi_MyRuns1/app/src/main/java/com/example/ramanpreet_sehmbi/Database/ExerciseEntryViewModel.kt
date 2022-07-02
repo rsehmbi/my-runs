@@ -38,10 +38,10 @@ class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) : 
         }
     }
 
-    fun deleteAll() {
+    fun updateMetric(metric: String, key:Long) {
         val exerciseList = allExerciseEntriesLiveData.value
         if (exerciseList != null && exerciseList.size > 0)
-            repository.deleteAll()
+            repository.updateMetric(metric, key)
     }
 
 }
