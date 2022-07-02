@@ -12,7 +12,7 @@ interface ExerciseEntryDatabaseDao {
     suspend fun insertInputType(exerciseEntry: ExerciseEntry)
 
     @Query("SELECT * FROM exercise_entry_table")
-    fun getAllExericiseEntries(): Flow<List<ExerciseEntry>>
+    fun getAllExericiseEntries(): Flow<MutableList<ExerciseEntry>>
 
     @Query("DELETE FROM exercise_entry_table")
     suspend fun deleteAll()

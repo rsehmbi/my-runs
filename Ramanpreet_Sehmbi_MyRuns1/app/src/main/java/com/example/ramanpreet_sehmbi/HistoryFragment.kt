@@ -19,6 +19,7 @@ import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 
 class HistoryFragment : Fragment() {
+
     val id: MutableList<String> = mutableListOf()
     val entryType: MutableList<String> = mutableListOf()
     val activityType: MutableList<String> = mutableListOf()
@@ -57,17 +58,20 @@ class HistoryFragment : Fragment() {
         if (units != null) {
             unitViewModel.UNITS = units
         }
-
         exerciseEntryViewModel.allExerciseEntriesLiveData.observe(activity) {
+            id.clear()
+            entryType.clear()
+            activityType.clear()
+            datetime.clear()
+            distance.clear()
+            duration.clear()
             for (entry in it) {
-                if (!id.contains(entry.id.toString())) {
-                    id.add(entry.id.toString())
-                    entryType.add(convertTypeIntToString(entry.inputType.toString()))
-                    activityType.add(entry.activityType)
-                    datetime.add(entry.dateTime)
-                    distance.add(entry.distance.toString())
-                    duration.add(entry.duration.toString())
-                }
+                id.add(entry.id.toString())
+                entryType.add(convertTypeIntToString(entry.inputType.toString()))
+                activityType.add(entry.activityType)
+                datetime.add(entry.dateTime)
+                distance.add(entry.distance.toString())
+                duration.add(entry.duration.toString())
             }
             val myListAdapter = HistoryListAdapter(
                 activity,
@@ -79,7 +83,7 @@ class HistoryFragment : Fragment() {
                 duration,
                 unitViewModel.UNITS,
             )
-            val listView = historyView.findViewById<ListView>(R.id.history_list_id)
+            var listView = historyView.findViewById<ListView>(R.id.history_list_id)
             listView.adapter = myListAdapter
             listView.setOnItemClickListener() { adapterView, view, position, id ->
                 val clickedItemId = adapterView.getItemAtPosition(position)

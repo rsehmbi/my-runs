@@ -12,17 +12,28 @@ import kotlinx.coroutines.launch
 
 class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) : ViewModel() {
 
-    val allExerciseEntriesLiveData: LiveData<List<ExerciseEntry>> =
+    val allExerciseEntriesLiveData: LiveData<MutableList<ExerciseEntry>> =
         repository.allExerciseEntries.asLiveData()
 
     fun insert(exerciseEntry: ExerciseEntry) {
         repository.insert(exerciseEntry)
     }
 
-    fun deleteFirst() {
+    fun deleteFirst(id: Long) {
         val exerciseList = allExerciseEntriesLiveData.value
+        var entryObj: ExerciseEntry? = null
+        if (exerciseList != null) {
+            for (entry in exerciseList){
+                if(entry.id == id){
+                    entryObj = entry
+                }
+            }
+
+        }
+        if (entryObj != null) {
+            exerciseList?.remove(entryObj)
+        }
         if (exerciseList != null && exerciseList.size > 0) {
-            val id = exerciseList[0].id
             repository.delete(id)
         }
     }

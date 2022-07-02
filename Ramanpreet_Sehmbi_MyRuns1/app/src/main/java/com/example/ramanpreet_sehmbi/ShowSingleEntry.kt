@@ -1,6 +1,8 @@
 package com.example.ramanpreet_sehmbi
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
 import com.example.ramanpreet_sehmbi.UIHelpers.getCalorieString
 import com.example.ramanpreet_sehmbi.UIHelpers.getHeartRateString
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
+
 
 class ShowSingleEntry : AppCompatActivity() {
     var entryId: String = ""
@@ -65,5 +68,19 @@ class ShowSingleEntry : AppCompatActivity() {
         distanceEditText.setEnabled(false);
         caloriesEditText.setEnabled(false);
         heartRateEditText.setEnabled(false);
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.delete_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_delete_id -> {
+            exerciseEntryViewModel.deleteFirst(entryId.toLong())
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }
