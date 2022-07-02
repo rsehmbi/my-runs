@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -8,16 +9,17 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.CustomDialog.Companion.TITLE_KEY
 import com.example.ramanpreet_sehmbi.Database.*
-import java.util.*
+import com.example.ramanpreet_sehmbi.UIHelpers.convertMilesToKM
+import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
+
 
 
 class ManualEntry : AppCompatActivity() {
 
     lateinit var manualEntries: ListView
-    private val calendar = Calendar.getInstance()
-
     var INPUT_TYPE = ""
     var DATE_SELECTED = ""
     var TIME_SELECTED = ""
@@ -45,8 +47,6 @@ class ManualEntry : AppCompatActivity() {
             INPUT_TYPE_POSITION = extras.getInt("INPUT_TYPE_POSITION")
             ACTIVITY_TYPE = extras.getString("ACTIVITY_TYPE").toString()
         }
-        println("Input Type is " + INPUT_TYPE)
-        println("Activity Type is " + INPUT_TYPE)
     }
 
     fun setUpManualEntriesList() {
@@ -135,23 +135,73 @@ class ManualEntry : AppCompatActivity() {
         exerciseFactory = ExerciseEntryViewModelFactory(repository)
         exerciseEntryViewModel =
             ViewModelProvider(this, exerciseFactory).get(ExerciseEntryViewModel::class.java)
-        val exerciseEntryObj = ExerciseEntry()
 
+        val sharedPref: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())
+        val units = sharedPref.getString("units", "kilometers")
+        val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
+        unitViewModel.UNITS = units.toString()
+
+        val exerciseEntryObj = ExerciseEntry()
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
         exerciseEntryObj.activityType = ACTIVITY_TYPE
-        exerciseEntryObj.dateTime = "$DATE_SELECTED $TIME_SELECTED"
-        exerciseEntryObj.duration = DURATION_ENTERED.toInt()
-        exerciseEntryObj.distance = DISTANCE_ENTERED.toFloat()
+        exerciseEntryObj.dateTime = "$TIME_SELECTED $DATE_SELECTED"
+        exerciseEntryObj.duration = DURATION_ENTERED.toFloat()
+        exerciseEntryObj.distance = convertMilesToKM(DISTANCE_ENTERED.toFloat(),units.toString())
         exerciseEntryObj.calorie = CALORIES_ENTERED.toFloat()
         exerciseEntryObj.heartrate = HEARTRATE_ENTERED.toInt()
         exerciseEntryObj.comment = COMMENT_ENTERED
         exerciseEntryViewModel.insert(exerciseEntryObj)
-
     }
 
+    fun validateInputs(): Boolean{
+        var missing_fields: MutableList<String> = mutableListOf<String>()
+        if(DATE_SELECTED.isBlank()){
+            missing_fields.add("Date")
+        }
+        else if(TIME_SELECTED.isBlank()){
+            missing_fields.add("Time")
+        }
+        else if(DURATION_ENTERED.isBlank()){
+            missing_fields.add("Duration")
+        }
+        else if(DISTANCE_ENTERED.isBlank()){
+            missing_fields.add("Distance")
+        }
+        else if(CALORIES_ENTERED.isBlank()){
+            missing_fields.add("Calories")
+        }
+        else if(HEARTRATE_ENTERED.isBlank()){
+            missing_fields.add("Heartrate")
+        }
+        else if(HEARTRATE_ENTERED.isBlank()){
+            missing_fields.add("comments")
+        }
+
+        if(missing_fields.size > 2){
+            Toast.makeText(this, "Please enter all the inputs", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if(missing_fields.size >= 1){
+            var missing_items =""
+            for (field in missing_fields){
+                missing_items += "${field} "
+            }
+            Toast.makeText(this, "Please enter ${missing_items}", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (missing_fields.size == 0){
+            return true
+        }
+        return false
+    }
     fun OnButtonSave(view: View) {
-        saveDatatoDatabase()
-        finish()
+        if (validateInputs()){
+            saveDatatoDatabase()
+            Toast.makeText(this, "Entry Saved!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
     }
 
     fun OnButtonCancel(view: View) {

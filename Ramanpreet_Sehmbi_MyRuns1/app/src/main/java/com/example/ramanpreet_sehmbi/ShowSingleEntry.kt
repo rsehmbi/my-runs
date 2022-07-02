@@ -8,10 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ramanpreet_sehmbi.Database.*
-import com.example.ramanpreet_sehmbi.UIHelpers.convertMetrics
-import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
-import com.example.ramanpreet_sehmbi.UIHelpers.getCalorieString
-import com.example.ramanpreet_sehmbi.UIHelpers.getHeartRateString
+import com.example.ramanpreet_sehmbi.UIHelpers.*
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 
@@ -54,7 +51,7 @@ class ShowSingleEntry : AppCompatActivity() {
                     inputEditText.setText(convertTypeIntToString(entry.inputType.toString()))
                     AcitivityEditText.setText(entry.activityType)
                     dateTimeEditText.setText(entry.dateTime)
-                    durationEditText.setText(entry.duration.toString())
+                    durationEditText.setText(convertIntToTime(entry.duration))
                     distanceEditText.setText(convertMetrics(entry.distance.toString(), units))
                     caloriesEditText.setText(getCalorieString(entry.calorie.toString()))
                     heartRateEditText.setText(getHeartRateString(entry.heartrate.toString()))

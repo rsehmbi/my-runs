@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 
@@ -42,7 +41,7 @@ class CustomDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     private fun setEditTextProperties(fragementView: View, titleText: String) {
         val editText = fragementView.findViewById<EditText>(R.id.dialog_edit_text_id)
-        editText.inputType = InputType.TYPE_CLASS_NUMBER
+        editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         if (titleText.contains("Comment")) {
             handleComment(editText)
         }

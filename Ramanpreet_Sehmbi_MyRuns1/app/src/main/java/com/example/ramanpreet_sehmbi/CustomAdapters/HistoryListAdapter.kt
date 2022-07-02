@@ -2,15 +2,12 @@ package com.example.ramanpreet_sehmbi.CustomAdapters
 
 
 import android.app.Activity
-import android.content.SharedPreferences
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.R
+import com.example.ramanpreet_sehmbi.UIHelpers.convertIntToTime
 import com.example.ramanpreet_sehmbi.UIHelpers.convertMetrics
-import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 class HistoryListAdapter(
     private val context: Activity,
@@ -36,7 +33,7 @@ class HistoryListAdapter(
         customActivityType.text = activityType[position]
         customDateTime.text = datetime[position]
         customDistance.text = convertMetrics(distance[position], metric_system)
-        customDuration.text = duration[position]
+        customDuration.text = convertIntToTime(duration[position].toFloat())
 
         return rowView
     }
