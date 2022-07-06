@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textAlignment="viewStart"
             android:textStyle="bold"
             android:id="@+id/entry_type_id"/>
@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text=": "
             android:textAlignment="viewStart"
             android:textStyle="bold"
@@ -29,14 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:id="@+id/activity_type_id"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text=", "
             android:textAlignment="viewStart"
             android:textStyle="bold"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:id="@+id/date_time_id"/>
     </LinearLayout>
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textAlignment="viewStart"
             android:id="@+id/distance_id"/>
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text=", "
             />
 
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:id="@+id/duration_id"/>
     </LinearLayout>
 

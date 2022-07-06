@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.CustomDialog.Companion.TITLE_KEY
 import com.example.ramanpreet_sehmbi.Database.*
 import com.example.ramanpreet_sehmbi.UIHelpers.convertMilesToKM
+import com.example.ramanpreet_sehmbi.ViewModels.ManualEntryViewModel
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 
 
@@ -20,16 +21,9 @@ import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
 class ManualEntry : AppCompatActivity() {
 
     lateinit var manualEntries: ListView
-    var INPUT_TYPE = ""
-    var DATE_SELECTED = ""
-    var TIME_SELECTED = ""
-    var INPUT_TYPE_POSITION = -1
-    var ACTIVITY_TYPE = ""
-    var DURATION_ENTERED = ""
-    var COMMENT_ENTERED = ""
-    var HEARTRATE_ENTERED = ""
-    var CALORIES_ENTERED = ""
-    var DISTANCE_ENTERED = ""
+    private var INPUT_TYPE = "";
+    private var ACTIVITY_TYPE= "";
+    private var INPUT_TYPE_POSITION = -1
 
     private lateinit var database: ExerciseEntryDatabase
     private lateinit var databaseDao: ExerciseEntryDatabaseDao
@@ -47,6 +41,9 @@ class ManualEntry : AppCompatActivity() {
             INPUT_TYPE_POSITION = extras.getInt("INPUT_TYPE_POSITION")
             ACTIVITY_TYPE = extras.getString("ACTIVITY_TYPE").toString()
         }
+
+
+
     }
 
     fun setUpManualEntriesList() {
@@ -72,27 +69,30 @@ class ManualEntry : AppCompatActivity() {
     }
 
     fun handleDialogResult() {
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
+
         supportFragmentManager.setFragmentResultListener(
             "CUSTOM_DIALOG_REQUEST_KEY",
             this
         ) { resultkey, bundle ->
             if (resultkey == "CUSTOM_DIALOG_REQUEST_KEY") {
                 if (bundle.containsKey("DISTANCE_ENTERED")) {
-                    DISTANCE_ENTERED = bundle.get("DISTANCE_ENTERED").toString()
+                    manualEntryViewModel.DISTANCE_ENTERED = bundle.get("DISTANCE_ENTERED").toString()
                 } else if (bundle.containsKey("DURATION_ENTERED")) {
-                    DURATION_ENTERED = bundle.get("DURATION_ENTERED").toString()
+                    manualEntryViewModel.DURATION_ENTERED = bundle.get("DURATION_ENTERED").toString()
                 } else if (bundle.containsKey("CALORIES_ENTERED")) {
-                    CALORIES_ENTERED = bundle.get("CALORIES_ENTERED").toString()
+                    manualEntryViewModel.CALORIES_ENTERED = bundle.get("CALORIES_ENTERED").toString()
                 } else if (bundle.containsKey("HEARTRATE_ENTERED")) {
-                    HEARTRATE_ENTERED = bundle.get("HEARTRATE_ENTERED").toString()
+                    manualEntryViewModel.HEARTRATE_ENTERED = bundle.get("HEARTRATE_ENTERED").toString()
                 } else if (bundle.containsKey("COMMENT_ENTERED")) {
-                    COMMENT_ENTERED = bundle.get("COMMENT_ENTERED").toString()
+                    manualEntryViewModel.COMMENT_ENTERED = bundle.get("COMMENT_ENTERED").toString()
                 }
             }
         }
     }
 
     fun handleDateClicked() {
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
         val datePickerFragment = com.example.ramanpreet_sehmbi.DatePicker()
         datePickerFragment.show(supportFragmentManager, null)
         supportFragmentManager.setFragmentResultListener(
@@ -100,12 +100,13 @@ class ManualEntry : AppCompatActivity() {
             this
         ) { resultkey, bundle ->
             if (resultkey == "DATE_REQUEST_KEY") {
-                DATE_SELECTED = bundle.get("DATE_SELECTED").toString()
+                manualEntryViewModel.DATE_SELECTED = bundle.get("DATE_SELECTED").toString()
             }
         }
     }
 
     fun handleTimeClicked() {
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
         val timePickerFragment = com.example.ramanpreet_sehmbi.TimePicker()
         timePickerFragment.show(supportFragmentManager, null)
         supportFragmentManager.setFragmentResultListener(
@@ -113,7 +114,7 @@ class ManualEntry : AppCompatActivity() {
             this
         ) { resultkey, bundle ->
             if (resultkey == "TIME_REQUEST_KEY") {
-                TIME_SELECTED = bundle.get("TIME_SELECTED").toString()
+                manualEntryViewModel.TIME_SELECTED = bundle.get("TIME_SELECTED").toString()
             }
         }
     }
@@ -142,39 +143,42 @@ class ManualEntry : AppCompatActivity() {
         val unitViewModel = ViewModelProvider(this)[UnitViewModel::class.java]
         unitViewModel.UNITS = units.toString()
 
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
+
         val exerciseEntryObj = ExerciseEntry()
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
         exerciseEntryObj.activityType = ACTIVITY_TYPE
-        exerciseEntryObj.dateTime = "$TIME_SELECTED $DATE_SELECTED"
-        exerciseEntryObj.duration = DURATION_ENTERED.toFloat()
-        exerciseEntryObj.distance = convertMilesToKM(DISTANCE_ENTERED.toFloat(),units.toString())
-        exerciseEntryObj.calorie = CALORIES_ENTERED.toFloat()
-        exerciseEntryObj.heartrate = HEARTRATE_ENTERED.toInt()
-        exerciseEntryObj.comment = COMMENT_ENTERED
+        exerciseEntryObj.dateTime = "${manualEntryViewModel.TIME_SELECTED} ${manualEntryViewModel.DATE_SELECTED}"
+        exerciseEntryObj.duration = manualEntryViewModel.DURATION_ENTERED.toFloat()
+        exerciseEntryObj.distance = convertMilesToKM(manualEntryViewModel.DISTANCE_ENTERED.toFloat(),units.toString())
+        exerciseEntryObj.calorie = manualEntryViewModel.CALORIES_ENTERED.toFloat()
+        exerciseEntryObj.heartrate = manualEntryViewModel.HEARTRATE_ENTERED.toInt()
+        exerciseEntryObj.comment = manualEntryViewModel.COMMENT_ENTERED
         exerciseEntryViewModel.insert(exerciseEntryObj)
     }
 
     fun validateInputs(): Boolean{
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
         var missing_fields: MutableList<String> = mutableListOf<String>()
-        if(DATE_SELECTED.isBlank()){
+        if(manualEntryViewModel.DATE_SELECTED.isBlank()){
             missing_fields.add("Date")
         }
-        else if(TIME_SELECTED.isBlank()){
+        else if(manualEntryViewModel.TIME_SELECTED.isBlank()){
             missing_fields.add("Time")
         }
-        else if(DURATION_ENTERED.isBlank()){
+        else if(manualEntryViewModel.DURATION_ENTERED.isBlank()){
             missing_fields.add("Duration")
         }
-        else if(DISTANCE_ENTERED.isBlank()){
+        else if(manualEntryViewModel.DISTANCE_ENTERED.isBlank()){
             missing_fields.add("Distance")
         }
-        else if(CALORIES_ENTERED.isBlank()){
+        else if(manualEntryViewModel.CALORIES_ENTERED.isBlank()){
             missing_fields.add("Calories")
         }
-        else if(HEARTRATE_ENTERED.isBlank()){
+        else if(manualEntryViewModel.HEARTRATE_ENTERED.isBlank()){
             missing_fields.add("Heartrate")
         }
-        else if(HEARTRATE_ENTERED.isBlank()){
+        else if(manualEntryViewModel.COMMENT_ENTERED.isBlank()){
             missing_fields.add("comments")
         }
 
@@ -199,12 +203,28 @@ class ManualEntry : AppCompatActivity() {
         if (validateInputs()){
             saveDatatoDatabase()
             Toast.makeText(this, "Entry Saved!", Toast.LENGTH_SHORT).show()
+            val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
+            manualEntryViewModel.DATE_SELECTED = ""
+            manualEntryViewModel.COMMENT_ENTERED = ""
+            manualEntryViewModel.TIME_SELECTED = ""
+            manualEntryViewModel.DISTANCE_ENTERED = ""
+            manualEntryViewModel.CALORIES_ENTERED = ""
+            manualEntryViewModel.DURATION_ENTERED = ""
+            manualEntryViewModel.HEARTRATE_ENTERED = ""
             finish()
         }
 
     }
 
     fun OnButtonCancel(view: View) {
+        val manualEntryViewModel = ViewModelProvider(this)[ManualEntryViewModel::class.java]
+        manualEntryViewModel.DATE_SELECTED = ""
+        manualEntryViewModel.COMMENT_ENTERED = ""
+        manualEntryViewModel.TIME_SELECTED = ""
+        manualEntryViewModel.DISTANCE_ENTERED = ""
+        manualEntryViewModel.CALORIES_ENTERED = ""
+        manualEntryViewModel.DURATION_ENTERED = ""
+        manualEntryViewModel.HEARTRATE_ENTERED = ""
         Toast.makeText(this, "Entry Discarded", Toast.LENGTH_SHORT).show()
         finish()
     }
