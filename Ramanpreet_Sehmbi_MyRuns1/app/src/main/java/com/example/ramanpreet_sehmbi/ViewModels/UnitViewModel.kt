@@ -6,5 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 
 class UnitViewModel() : ViewModel() {
+    // Unit view model to handle the unit changes
     var UNITS = "metric"
 }

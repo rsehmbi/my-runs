@@ -29,6 +29,7 @@ data class ExerciseEntry(
     @ColumnInfo(name = "distance_column")
     var distance: Float = -1f,
 
+    // TODO: Requirements not specified yet. Didn't see the need for commented out fields
 //    @ColumnInfo(name = "avg_pace_column")
 //    var avgPace: Float,
 

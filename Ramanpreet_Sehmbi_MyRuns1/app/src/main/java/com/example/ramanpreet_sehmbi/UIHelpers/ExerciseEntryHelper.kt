@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun convertTypeIntToString(position: String): String {
+    // Helps in showing ui string as shown in demo app
     val position_int = position.toInt()
     val entrytype = arrayOf<String>(
         "Manual Entry",
@@ -19,14 +20,17 @@ fun convertTypeIntToString(position: String): String {
 }
 
 fun getHeartRateString(heartRate: String): String {
+    // Helps in showing ui string as shown in demo app
     return "$heartRate bpm"
 }
 
 fun getCalorieString(cals: String): String {
+    // Helps in showing ui string as shown in demo app
     return "$cals cals"
 }
 
 fun convertMetrics(kilometers: String, metric_system: String): String {
+    // Helps in showing ui string as shown in demo app
     if (metric_system.contains("imperial")) {
         var miles = (kilometers.toFloat() / 1.609f)
         return "$miles Miles"
@@ -35,6 +39,7 @@ fun convertMetrics(kilometers: String, metric_system: String): String {
 }
 
 fun convertMilesToKM(distance: Float, metric_system: String): Float {
+    // Convert Miles to Kilometers
     if (metric_system.contains("imperial")) {
         return distance * 1.609f
     }

@@ -38,7 +38,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val exerciseViewModel = ViewModelProvider(requireActivity())[ExerciseEntryViewModel::class.java]
         unitViewModel.UNITS = key.toString()
         val list = exerciseViewModel.allExerciseEntriesLiveData.value
-        if(list != null){
+        if(list != null && !list.isEmpty()){
             exerciseViewModel.updateMetric(unitViewModel.UNITS, list.get(0).id )
         }
     }

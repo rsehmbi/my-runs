@@ -33,7 +33,7 @@ class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) : 
         if (entryObj != null) {
             exerciseList?.remove(entryObj)
         }
-        if (exerciseList != null && exerciseList.size > 0) {
+        if (exerciseList != null) {
             repository.delete(id)
         }
     }
