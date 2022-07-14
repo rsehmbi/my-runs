@@ -85,7 +85,7 @@ class Start : Fragment() {
                 manualEntryIntent.putExtra("ACTIVITY_TYPE", ACTIVITYTYPE)
                 startActivity(manualEntryIntent)
             } else {
-                startActivity(Intent(activity, GPS::class.java))
+                startActivity(Intent(activity, Automatic::class.java))
             }
         }
         return fragmentStartView
