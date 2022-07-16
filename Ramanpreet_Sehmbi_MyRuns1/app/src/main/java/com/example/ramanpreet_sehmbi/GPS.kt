@@ -85,4 +85,7 @@ class GPS : AppCompatActivity(), LocationListener {
     fun OnButtonCancel(view: View) {
         finish()
     }
+
+    fun OnBindSave(view: View) {}
+    fun OnUnBindCancel(view: View) {}
 }
