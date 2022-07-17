@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -42,6 +43,13 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
     private var isBind = false
     private val BIND_STATUS_KEY = "BIND_STATUS_KEY"
 
+    lateinit var typeTextView: TextView;
+    lateinit var avgSpeedTextView: TextView;
+    lateinit var currSpeedTextView: TextView;
+    lateinit var climbTextView: TextView;
+    lateinit var calorieTextView: TextView;
+    lateinit var distanceTextView: TextView;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,6 +73,16 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
             println("The value of isBind is " + savedInstanceState.getBoolean(BIND_STATUS_KEY))
             isBind = savedInstanceState.getBoolean(BIND_STATUS_KEY)
         }
+
+        typeTextView = findViewById(R.id.activity_type_id)
+        typeTextView.text = "Type: "+ ACTIVITY_TYPE
+
+
+        avgSpeedTextView = findViewById(R.id.avg_speed_id)
+        currSpeedTextView = findViewById(R.id.curr_speed_id)
+        climbTextView = findViewById(R.id.climb_id)
+        calorieTextView = findViewById(R.id.calorie_id)
+        distanceTextView = findViewById(R.id.distance_id)
     }
 
      private fun addStartingMarker(currentLocation: LatLng){
@@ -109,6 +127,14 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
             val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 17f)
             mMap.animateCamera(cameraUpdate)
         }
+         updateTextData()
+    }
+
+    private fun updateTextData(){
+        currSpeedTextView.text = "Curr Speed: " + gpsViewModel.currentSpeed
+        climbTextView.text = "Climb: "+ gpsViewModel.currentAltitude.toString()
+        avgSpeedTextView.text ="Avg Speed: " + gpsViewModel.speedList.average().toString()
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

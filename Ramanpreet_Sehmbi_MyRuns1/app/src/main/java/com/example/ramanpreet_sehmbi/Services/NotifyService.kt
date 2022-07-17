@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.location.*
-import android.net.Uri
 import android.os.*
 import androidx.core.app.NotificationCompat
 import com.example.ramanpreet_sehmbi.Automatic
@@ -18,8 +17,6 @@ class NotifyService: Service(), LocationListener {
     private lateinit var notificationManager: NotificationManager
     private val CHANNEL_ID = "LOCATION CHANEL"
     var NOTIFY_ID = 1
-    private val web = "https://www.google.com"
-
 
     private lateinit var myBinder: Binder
     private lateinit var locationManager: LocationManager
@@ -28,6 +25,8 @@ class NotifyService: Service(), LocationListener {
     companion object{
         val LATITUDE_LOCATION_KEY = "LATITUDE_LOCATION_KEY"
         val LONGITUDE_LOCATION_KEY = "LONGITUDE_LOCATION_KEY"
+        val CURRENT_SPEED_KEY = "CURRENT_SPEED_KEY"
+        val CURRENT_ALTITUDE_KEY = "CURRENT_ALTITUDE_KEY"
     }
 
     override fun onCreate() {
@@ -42,16 +41,21 @@ class NotifyService: Service(), LocationListener {
     override fun onLocationChanged(location: Location){
         val lat = location.latitude
         val lng = location.longitude
+
+        println("The current speed is " + location.speed)
+        println("The Altitude is " + location.getAltitude())
         val currentLocation = LatLng(lat, lng)
         printLocationonConsole(lat, lng)
-        sendLatLongMessage(lat, lng)
+        sendLatLongMessage(lat, lng, location.speed.toString(), location.altitude)
     }
 
-    fun sendLatLongMessage(lat:Double, lng: Double){
+    fun sendLatLongMessage(lat:Double, lng: Double, speed: String, altitude: Double){
         if(serviceGPSHandler!=null){
             val bundle = Bundle()
             bundle.putDouble(LATITUDE_LOCATION_KEY, lat)
             bundle.putDouble(LONGITUDE_LOCATION_KEY, lng)
+            bundle.putString(CURRENT_SPEED_KEY, speed.toString())
+            bundle.putDouble(CURRENT_ALTITUDE_KEY, altitude)
 
             val message = serviceGPSHandler!!.obtainMessage()
             message.data = bundle
