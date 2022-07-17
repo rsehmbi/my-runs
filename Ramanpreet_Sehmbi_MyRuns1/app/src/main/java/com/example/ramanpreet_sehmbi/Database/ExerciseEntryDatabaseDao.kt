@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi.Database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -22,4 +23,8 @@ interface ExerciseEntryDatabaseDao {
 
     @Query("DELETE FROM exercise_entry_table WHERE id= :key")
     suspend fun deleteExerciseEntry(key: Long)
+
+
+    @Query("SELECT * FROM exercise_entry_table WHERE id= :key")
+    fun getExerciseEntry(key: Long): LiveData<ExerciseEntry>
 }

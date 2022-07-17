@@ -19,6 +19,10 @@ class ExerciseEntryViewModel(private val repository: ExerciseEntryRepository) : 
         repository.insert(exerciseEntry)
     }
 
+    fun getEntry(id: Long): LiveData<ExerciseEntry> {
+        return repository.getExerciseEntry(id)
+    }
+
     fun deleteFirst(id: Long) {
         val exerciseList = allExerciseEntriesLiveData.value
         var entryObj: ExerciseEntry? = null

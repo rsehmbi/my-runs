@@ -4,21 +4,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.location.*
 import android.net.Uri
 import android.os.*
 import androidx.core.app.NotificationCompat
+import com.example.ramanpreet_sehmbi.Automatic
 import com.example.ramanpreet_sehmbi.R
-import com.example.ramanpreet_sehmbi.ViewModels.GPSViewModel
-import com.google.android.gms.maps.CameraUpdate
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
 class NotifyService: Service(), LocationListener {
@@ -26,7 +19,6 @@ class NotifyService: Service(), LocationListener {
     private val CHANNEL_ID = "LOCATION CHANEL"
     var NOTIFY_ID = 1
     private val web = "https://www.google.com"
-    private lateinit var myBroadcastReceiver: BroadcastReceiver;
 
 
     private lateinit var myBinder: Binder
@@ -44,13 +36,7 @@ class NotifyService: Service(), LocationListener {
         myBinder = MyBinder()
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         showNotification()
-
-
-        myBroadcastReceiver = MyBroadcastReceiver()
         initLocationManager()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("STOP_RUN")
-        registerReceiver(myBroadcastReceiver, intentFilter)
     }
 
     override fun onLocationChanged(location: Location){
@@ -81,9 +67,7 @@ class NotifyService: Service(), LocationListener {
 
         for (i in 0..address.maxAddressLineIndex)
             line2 += "${address.getAddressLine(i)}\n"
-
-        println("raman debug: The last inside Notify Service "+ line2 )
-
+        println("raman debug: SERVICE" + line2)
     }
 
 
@@ -143,11 +127,12 @@ class NotifyService: Service(), LocationListener {
         notificationCompactBuilder.setContentTitle("My Runs")
         notificationCompactBuilder.setContentText("Your activity is being recorded")
         notificationCompactBuilder.setSmallIcon(R.drawable.run)
-        notificationCompactBuilder.setAutoCancel(true)
 
+        val resultIntent = Intent(this, Automatic::class.java)
+        resultIntent.setAction(Intent.ACTION_MAIN);
+        resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        val webpageIntent = Intent(Intent.ACTION_VIEW, Uri.parse(web))
-        val pendingIntent = PendingIntent.getActivity(this, 3434, webpageIntent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(this, 3434, resultIntent, PendingIntent.FLAG_IMMUTABLE)
         notificationCompactBuilder.setContentIntent(pendingIntent)
 
         val notification = notificationCompactBuilder.build()
@@ -158,15 +143,5 @@ class NotifyService: Service(), LocationListener {
         }
         notificationManager.notify(NOTIFY_ID, notification)
     }
-
-    inner class MyBroadcastReceiver: BroadcastReceiver(){
-        override fun onReceive(context: Context?, Intent: Intent?) {
-            notificationManager.cancel(NOTIFY_ID)
-            stopSelf()
-            unregisterReceiver(myBroadcastReceiver)
-        }
-
-    }
-
 }
 

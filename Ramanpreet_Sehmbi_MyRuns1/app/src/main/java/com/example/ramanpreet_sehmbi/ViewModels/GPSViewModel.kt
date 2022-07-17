@@ -13,7 +13,11 @@ import androidx.lifecycle.ViewModel
 import com.example.ramanpreet_sehmbi.Services.NotifyService
 import com.example.ramanpreet_sehmbi.Services.NotifyService.Companion.LATITUDE_LOCATION_KEY
 import com.example.ramanpreet_sehmbi.Services.NotifyService.Companion.LONGITUDE_LOCATION_KEY
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 
 class GPSViewModel: ViewModel(), ServiceConnection {
     private val _location = MutableLiveData<LatLng>()
@@ -22,8 +26,14 @@ class GPSViewModel: ViewModel(), ServiceConnection {
         return _location
     }
 
-    var isBind = false
     private var myLocationHandler = MyLocationHandler(Looper.getMainLooper())
+
+
+    var  markerOptions: MarkerOptions = MarkerOptions()
+    var polylineOptions: PolylineOptions = PolylineOptions()
+    var markerFinal: Marker? = null
+    var isCenter = false
+    var startingLocation: LatLng? = null
 
     override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
         println("raman debug: onServiceConnected")

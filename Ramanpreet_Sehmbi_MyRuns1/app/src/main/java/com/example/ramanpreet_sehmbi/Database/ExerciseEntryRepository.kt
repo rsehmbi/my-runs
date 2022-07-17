@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi.Database
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,10 @@ class ExerciseEntryRepository(private val exerciseEntryDatabaseDao: ExerciseEntr
             exerciseEntryDatabaseDao.updateMetric(metric, key)
         }
     }
+
+     fun getExerciseEntry(key: Long): LiveData<ExerciseEntry> {
+          return exerciseEntryDatabaseDao.getExerciseEntry(key)
+     }
 
     fun deleteAll() {
         CoroutineScope(IO).launch {

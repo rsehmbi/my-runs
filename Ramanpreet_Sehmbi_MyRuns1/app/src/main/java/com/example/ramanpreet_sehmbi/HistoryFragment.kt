@@ -16,6 +16,7 @@ import com.example.ramanpreet_sehmbi.CustomAdapters.HistoryListAdapter
 import com.example.ramanpreet_sehmbi.Database.*
 import com.example.ramanpreet_sehmbi.UIHelpers.convertTypeIntToString
 import com.example.ramanpreet_sehmbi.ViewModels.UnitViewModel
+import java.lang.Long.parseLong
 
 
 class HistoryFragment : Fragment() {
@@ -83,19 +84,34 @@ class HistoryFragment : Fragment() {
             var listView = historyView.findViewById<ListView>(R.id.history_list_id)
             listView.adapter = myListAdapter
             listView.setOnItemClickListener() { adapterView, view, position, id ->
-                val clickedItemId = adapterView.getItemAtPosition(position)
+                val clickedItemId = parseLong(adapterView.getItemAtPosition(position).toString())
                 val itemIdAtPos = adapterView.getItemIdAtPosition(position)
-
-                val currentEntryID: String = clickedItemId.toString()
-                val intent = Intent(activity, ShowSingleEntry::class.java)
-                intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
-                startActivity(intent)
-
+                exerciseEntryViewModel.getEntry(id= clickedItemId).observe(requireActivity()){
+                    if (it != null){
+                        Toast.makeText(requireContext(), "${convertTypeIntToString(it.inputType.toString())}", Toast.LENGTH_SHORT).show()
+                        if (convertTypeIntToString(it.inputType.toString()) == "GPS") {
+                            val currentEntryID: String = clickedItemId.toString()
+                            val intent = Intent(activity, GPS::class.java)
+                            intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
+                            startActivity(intent)
+                        }
+                        else if (convertTypeIntToString(it.inputType.toString()) == "Manual Entry"){
+                            val currentEntryID: String = clickedItemId.toString()
+                            val intent = Intent(activity, ShowSingleEntry::class.java)
+                            intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
+                            startActivity(intent)
+                        }
+                        else if (convertTypeIntToString(it.inputType.toString()) == "Automatic"){
+                            val currentEntryID: String = clickedItemId.toString()
+                            val intent = Intent(activity, GPS::class.java)
+                            intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
+                            startActivity(intent)
+                        }
+                    }
+                }
                 println("Click on item at $clickedItemId its item id $itemIdAtPos")
             }
         }
-
-
         return historyView
     }
 

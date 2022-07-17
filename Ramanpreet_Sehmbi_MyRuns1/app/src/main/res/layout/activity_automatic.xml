@@ -23,7 +23,7 @@
             android:id="@+id/gps_save_button_id"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Start"
+            android:text="Save"
             android:onClick="OnButtonSave"
             android:layout_margin="5dp"
             android:layout_width="match_parent">
@@ -35,26 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="OnButtonCancel"
-            android:text="Stop"
-            android:layout_width="match_parent">
-        </Button>
-        <Button
-            android:id="@+id/bind_save_button_id"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Bind"
-            android:onClick="OnBindSave"
-            android:layout_margin="5dp"
-            android:layout_width="match_parent">
-        </Button>
-
-        <Button
-            android:layout_margin="5dp"
-            android:id="@+id/unbind_button_id"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="OnUnBindCancel"
-            android:text="UnBind"
+            android:text="Cancel"
             android:layout_width="match_parent">
         </Button>
 
