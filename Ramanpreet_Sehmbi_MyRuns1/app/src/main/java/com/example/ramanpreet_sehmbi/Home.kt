@@ -32,7 +32,7 @@ class Home : AppCompatActivity() {
     private lateinit var tabConfigurationStrategy: TabLayoutMediator.TabConfigurationStrategy
     private val TAB_TEXT = arrayOf("Start", "History", "Settings")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 

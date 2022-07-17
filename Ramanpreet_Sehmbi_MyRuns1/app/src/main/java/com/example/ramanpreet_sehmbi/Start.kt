@@ -84,8 +84,19 @@ class Start : Fragment() {
                 manualEntryIntent.putExtra("INPUT_TYPE_POSITION", INPUTTYPEPOSITION)
                 manualEntryIntent.putExtra("ACTIVITY_TYPE", ACTIVITYTYPE)
                 startActivity(manualEntryIntent)
-            } else {
-                startActivity(Intent(activity, GPS::class.java))
+            } else if(INPUTTYPE == "GPS") {
+                val GPSEntryIntent = Intent(activity, Automatic::class.java)
+                GPSEntryIntent.putExtra("INPUT_TYPE", INPUTTYPE)
+                GPSEntryIntent.putExtra("INPUT_TYPE_POSITION", INPUTTYPEPOSITION)
+                GPSEntryIntent.putExtra("ACTIVITY_TYPE", ACTIVITYTYPE)
+                startActivity(GPSEntryIntent)
+            }
+            else {
+                val AutomaticEntryIntent = Intent(activity, Automatic::class.java)
+                AutomaticEntryIntent.putExtra("INPUT_TYPE", INPUTTYPE)
+                AutomaticEntryIntent.putExtra("INPUT_TYPE_POSITION", INPUTTYPEPOSITION)
+                AutomaticEntryIntent.putExtra("ACTIVITY_TYPE", ACTIVITYTYPE)
+                startActivity(AutomaticEntryIntent)
             }
         }
         return fragmentStartView

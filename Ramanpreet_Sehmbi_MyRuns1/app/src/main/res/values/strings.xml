@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyRuns3</string>
+    <string name="app_name">MyRuns4</string>
 
     <!--    Profile page strings-->
     <string name="user_image_description">Profile Picture</string>
@@ -54,6 +54,7 @@
 
     <!-- Sync Preferences -->
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_automatic">Automatic</string>
     <string-array name="input_types">
         <item>Manual Entry</item>
         <item>GPS</item>

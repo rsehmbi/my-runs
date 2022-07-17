@@ -1,11 +1,11 @@
 package com.example.ramanpreet_sehmbi.Database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.example.ramanpreet_sehmbi.TypeConverter.LatLongConverter
 
 @Database(entities = [ExerciseEntry::class], version = 1)
+@TypeConverters(LatLongConverter::class)
 abstract class ExerciseEntryDatabase : RoomDatabase() {
     abstract val exerciseEntryDatabaseDao: ExerciseEntryDatabaseDao
 
