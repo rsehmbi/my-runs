@@ -1,5 +1,7 @@
 package com.example.ramanpreet_sehmbi.UIHelpers
 
+import com.example.ramanpreet_sehmbi.MONTHS_YEAR
+import java.lang.Float.parseFloat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -45,6 +47,48 @@ fun convertMilesToKM(distance: Float, metric_system: String): Float {
     }
     return distance
 }
+
+fun getCurrentDateTime(): String{
+    val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+    val time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date());
+    val year = calendar.get(Calendar.YEAR)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val month = MONTHS_YEAR[calendar.get(Calendar.MONTH)]
+    return "${time} ${month} ${day} ${year}"
+}
+
+fun covertIntoKm(speed: String, units:String): String {
+    if (units.contains("imperial"))
+        return "Curr Speed: " + String.format("%.2f", (2.23694 * parseFloat(speed))) + " m/h"
+    else
+        return "Curr Speed: " + String.format("%.2f", (3.6 * parseFloat(speed))) + " km/h"
+}
+
+fun convertAltitude(altitude: Double, units:String): String {
+    if (units.contains("imperial"))
+        return "Climb: " + String.format("%.2f", (0.000621371 * altitude)) + " miles"
+    else
+        return "Climb: " + String.format("%.2f", (0.001 * altitude) )+ " kms"
+}
+
+fun covertAvgSpeed(speed: Double, units:String): String {
+    if (units.contains("imperial"))
+        return "Avg Speed: " + String.format("%.2f", (2.23694 * speed)) + " m/h"
+    else
+        return "Avg Speed: " + String.format("%.2f", (3.6 * speed)) + " km/h"
+}
+
+fun covertDistance(distance: Float, units:String): String {
+    if (units.contains("imperial"))
+        return "Distance: " + String.format("%.2f", (0.000621371 * distance)) + " miles"
+    else
+        return "Distance: " + String.format("%.2f", (0.001 * distance)) + " kms"
+}
+
+fun covertCalories(distance: Float): String {
+    return "Calories: " + String.format("%.2f", (distance * 0.001) * 62)
+}
+
 
 fun convertIntToTime(time: Float):String
 {

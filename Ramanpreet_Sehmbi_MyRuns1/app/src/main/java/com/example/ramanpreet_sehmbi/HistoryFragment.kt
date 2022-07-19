@@ -68,7 +68,7 @@ class HistoryFragment : Fragment() {
                 entryType.add(convertTypeIntToString(entry.inputType.toString()))
                 activityType.add(entry.activityType)
                 datetime.add(entry.dateTime)
-                distance.add(entry.distance.toString())
+                distance.add(String.format("%.2f", entry.distance) )
                 duration.add(entry.duration.toString())
             }
             val myListAdapter = HistoryListAdapter(
@@ -86,12 +86,12 @@ class HistoryFragment : Fragment() {
             listView.setOnItemClickListener() { adapterView, view, position, id ->
                 val clickedItemId = parseLong(adapterView.getItemAtPosition(position).toString())
                 val itemIdAtPos = adapterView.getItemIdAtPosition(position)
-                exerciseEntryViewModel.getEntry(id= clickedItemId).observe(requireActivity()){
+                exerciseEntryViewModel.getEntry(id=clickedItemId).observe(requireActivity()){
                     if (it != null){
                         Toast.makeText(requireContext(), "${convertTypeIntToString(it.inputType.toString())}", Toast.LENGTH_SHORT).show()
                         if (convertTypeIntToString(it.inputType.toString()) == "GPS") {
                             val currentEntryID: String = clickedItemId.toString()
-                            val intent = Intent(activity, GPS::class.java)
+                            val intent = Intent(activity, gpsentry::class.java)
                             intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
                             startActivity(intent)
                         }
@@ -103,7 +103,7 @@ class HistoryFragment : Fragment() {
                         }
                         else if (convertTypeIntToString(it.inputType.toString()) == "Automatic"){
                             val currentEntryID: String = clickedItemId.toString()
-                            val intent = Intent(activity, GPS::class.java)
+                            val intent = Intent(activity, gpsentry::class.java)
                             intent.putExtra("EXERCISE_ENTRY_ID", currentEntryID)
                             startActivity(intent)
                         }

@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_automatic.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/activity_gps.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/activity_gpsentry.xml" value="0.10106382978723404" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.24324324324324326" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/activity_manual_entry.xml" value="0.26927083333333335" />
