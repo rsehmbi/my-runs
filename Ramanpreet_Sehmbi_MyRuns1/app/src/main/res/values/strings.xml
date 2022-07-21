@@ -85,5 +85,6 @@
         <item>HeartRate</item>
         <item>Comment</item>
     </string-array>
+    <string name="title_activity_gpsentry">gpsentry</string>
 
 </resources>

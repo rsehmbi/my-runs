@@ -3,6 +3,7 @@ package com.example.ramanpreet_sehmbi
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -14,14 +15,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.ramanpreet_sehmbi.Database.*
 import com.example.ramanpreet_sehmbi.Services.NotifyService
-import com.example.ramanpreet_sehmbi.UIHelpers.convertMilesToKM
+import com.example.ramanpreet_sehmbi.UIHelpers.*
 import com.example.ramanpreet_sehmbi.ViewModels.GPSViewModel
 import com.example.ramanpreet_sehmbi.databinding.ActivityAutomaticBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Automatic : AppCompatActivity(), OnMapReadyCallback {
 
@@ -102,6 +105,7 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
 
      private fun updateUI(lat: Double, lng: Double){
          val currentLocation = LatLng(lat, lng)
+         updateTextData(lat, lng)
         if (!gpsViewModel.isCenter){
             addStartingMarker(currentLocation)
             gpsViewModel.startingLocation = currentLocation
@@ -127,14 +131,18 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
             val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 17f)
             mMap.animateCamera(cameraUpdate)
         }
-         updateTextData()
     }
 
-    private fun updateTextData(){
-        currSpeedTextView.text = "Curr Speed: " + gpsViewModel.currentSpeed
-        climbTextView.text = "Climb: "+ gpsViewModel.currentAltitude.toString()
-        avgSpeedTextView.text ="Avg Speed: " + gpsViewModel.speedList.average().toString()
+    private fun updateTextData(lat:Double, lng:Double){
+        val sharedPref: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())
+        val units = sharedPref.getString("units", "")
 
+        currSpeedTextView.text = covertIntoKm(gpsViewModel.currentSpeed, units!!)
+        climbTextView.text = convertAltitude(gpsViewModel.currentAltitude, units!!)
+        avgSpeedTextView.text =covertAvgSpeed(gpsViewModel.speedList.average(), units!!)
+        distanceTextView.text =covertDistance(gpsViewModel.final_distance, units!!)
+        calorieTextView.text = covertCalories(gpsViewModel.final_distance)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -183,27 +191,30 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
         val exerciseEntryObj = ExerciseEntry()
         exerciseEntryObj.inputType = INPUT_TYPE_POSITION
         exerciseEntryObj.activityType = ACTIVITY_TYPE
-        exerciseEntryObj.dateTime = "datetimetest"
-        exerciseEntryObj.duration = 13f
-        exerciseEntryObj.distance = 14f
-        exerciseEntryObj.calorie = 15f
-        exerciseEntryObj.heartrate = 126
-        exerciseEntryObj.comment = "Testret"
+        exerciseEntryObj.dateTime = getCurrentDateTime()
+        exerciseEntryObj.duration = (gpsViewModel.time_elapsed.toFloat() / 60)
+        exerciseEntryObj.distance = gpsViewModel.final_distance
+        exerciseEntryObj.calorie = gpsViewModel.final_distance
+        exerciseEntryObj.avgSpeed = gpsViewModel.speedList.average().toFloat()
+        exerciseEntryObj.avgPace = gpsViewModel.currentSpeed.toFloat()
+        exerciseEntryObj.climb = gpsViewModel.currentAltitude.toFloat()
         exerciseEntryObj.locationList = gpsViewModel.polylineOptions.points as ArrayList<LatLng>
 
         exerciseEntryViewModel.insert(exerciseEntryObj)
 
     }
+
     fun OnButtonSave(view: View) {
         savetoDatabase()
-        println("raman debug: The points are" + gpsViewModel.polylineOptions.points)
-        println("raman debug: The isCenter is" + gpsViewModel.isCenter)
+        stopService()
         Toast.makeText(this, "Entry Saved", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     fun OnButtonCancel(view: View) {
         stopService()
         Toast.makeText(this, "Entry Discarded", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun startNotifyService(){

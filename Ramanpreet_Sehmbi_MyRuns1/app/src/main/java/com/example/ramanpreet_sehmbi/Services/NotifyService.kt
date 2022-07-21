@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ContentProvider
 import android.content.Intent
 import android.location.*
 import android.os.*
@@ -22,11 +23,16 @@ class NotifyService: Service(), LocationListener {
     private lateinit var locationManager: LocationManager
     private var serviceGPSHandler: Handler? = null
 
+    private var counter = 0;
+    private lateinit var timer: Timer
+    private lateinit var myTimerTask: TimerTask
+
     companion object{
         val LATITUDE_LOCATION_KEY = "LATITUDE_LOCATION_KEY"
         val LONGITUDE_LOCATION_KEY = "LONGITUDE_LOCATION_KEY"
         val CURRENT_SPEED_KEY = "CURRENT_SPEED_KEY"
         val CURRENT_ALTITUDE_KEY = "CURRENT_ALTITUDE_KEY"
+        val TIME_ELAPSED = "CURRENT_ALTITUDE_KEY"
     }
 
     override fun onCreate() {
@@ -36,6 +42,17 @@ class NotifyService: Service(), LocationListener {
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         showNotification()
         initLocationManager()
+
+        timer = Timer()
+        myTimerTask = MyTimerTask()
+        timer.scheduleAtFixedRate(myTimerTask, 0, 1000L)
+    }
+
+    inner class MyTimerTask: TimerTask(){
+        override fun run() {
+            counter++
+            println("debug raman :" +  counter)
+        }
     }
 
     override fun onLocationChanged(location: Location){
@@ -56,6 +73,7 @@ class NotifyService: Service(), LocationListener {
             bundle.putDouble(LONGITUDE_LOCATION_KEY, lng)
             bundle.putString(CURRENT_SPEED_KEY, speed.toString())
             bundle.putDouble(CURRENT_ALTITUDE_KEY, altitude)
+            bundle.putInt(TIME_ELAPSED, counter)
 
             val message = serviceGPSHandler!!.obtainMessage()
             message.data = bundle
@@ -73,7 +91,6 @@ class NotifyService: Service(), LocationListener {
             line2 += "${address.getAddressLine(i)}\n"
         println("raman debug: SERVICE" + line2)
     }
-
 
     fun initLocationManager() {
         try{
@@ -113,6 +130,10 @@ class NotifyService: Service(), LocationListener {
         if (locationManager != null){
             locationManager.removeUpdates(this)
         }
+        if(timer != null){
+            timer.cancel()
+        }
+        counter = 0
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
