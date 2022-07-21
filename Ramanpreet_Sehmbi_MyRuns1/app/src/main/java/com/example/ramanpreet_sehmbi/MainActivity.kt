@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadProfile(savedInstanceState: Bundle?) {
         val sharedPreference = getSharedPreferences(SHAREDPREFERENCE, Context.MODE_PRIVATE)
+
         val nameEditText = findViewById<EditText>(R.id.user_name_id)
         val emailEditText = findViewById<EditText>(R.id.email_address_id)
         val userGenderRadioGroup = findViewById<RadioGroup>(R.id.gender_group_id)

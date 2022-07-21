@@ -1,5 +1,6 @@
 package com.example.ramanpreet_sehmbi
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +36,14 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        val historyPreference = getSharedPreferences("HISTORYPREFERENCE", Context.MODE_PRIVATE)
+        val historysharedPrefEditor = historyPreference.edit()
+        historysharedPrefEditor.putBoolean(
+            "OPEN",
+            true
+        )
+        historysharedPrefEditor.apply()
 
         startFragment = Start()
         historyFragment = HistoryFragment()
