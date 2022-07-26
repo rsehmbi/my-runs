@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GPS"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Automatic" />
+
+    <TextView
+        android:id="@+id/activity_type_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/avg_speed_id"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/activity_type_id"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/curr_speed_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/avg_speed_id"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/climb_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/curr_speed_id"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/calorie_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/climb_id"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/distance_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/calorie_id"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp">
+    </TextView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_cancel_id"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/gps_save_button_id"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save"
+            android:onClick="OnButtonSave"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent">
+        </Button>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/gps_cancel_button_id"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="OnButtonCancel"
+            android:text="Cancel"
+            android:layout_width="match_parent">
+        </Button>
+
+    </LinearLayout>
+</RelativeLayout>
