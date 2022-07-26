@@ -58,10 +58,13 @@ fun getCurrentDateTime(): String{
 }
 
 fun covertIntoKm(speed: String, units:String): String {
-    if (units.contains("imperial"))
-        return "Curr Speed: " + String.format("%.2f", (2.23694 * parseFloat(speed))) + " m/h"
-    else
-        return "Curr Speed: " + String.format("%.2f", (3.6 * parseFloat(speed))) + " km/h"
+    if(speed != "" && speed != null){
+        if (units.contains("imperial"))
+            return "Curr Speed: " + String.format("%.2f", (2.23694 * parseFloat(speed))) + " m/h"
+        else
+            return "Curr Speed: " + String.format("%.2f", (3.6 * parseFloat(speed))) + " km/h"
+    }
+    return "Curr Speed: "
 }
 
 fun convertAltitude(altitude: Double, units:String): String {

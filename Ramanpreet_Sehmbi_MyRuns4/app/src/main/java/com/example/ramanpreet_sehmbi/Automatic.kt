@@ -108,7 +108,7 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
 
      private fun updateUI(lat: Double, lng: Double){
          val currentLocation = LatLng(lat, lng)
-         updateTextData(lat, lng)
+         updateTextData()
         if (!gpsViewModel.isCenter){
             addStartingMarker(currentLocation)
             gpsViewModel.startingLocation = currentLocation
@@ -136,7 +136,7 @@ class Automatic : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun updateTextData(lat:Double, lng:Double){
+    private fun updateTextData(){
         val sharedPref: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())
         val units = sharedPref.getString("units", "")

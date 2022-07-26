@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import kotlinx.coroutines.newFixedThreadPoolContext
 import java.lang.Float.parseFloat
 
 class GPSViewModel: ViewModel(), ServiceConnection {
