@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "480870f1c89009218ab8cbfc2483e8f4",
+    "entities": [
+      {
+        "tableName": "exercise_entry_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `input_type_column` INTEGER NOT NULL, `activity_type_column` TEXT NOT NULL, `date_time_column` TEXT NOT NULL, `duration_column` REAL NOT NULL, `distance_column` REAL NOT NULL, `avg_pace_column` REAL NOT NULL, `avg_speed_column` REAL NOT NULL, `calorie_column` REAL NOT NULL, `climb_column` REAL NOT NULL, `heart_rate_column` INTEGER NOT NULL, `comment_column` TEXT NOT NULL, `metric_info` TEXT NOT NULL, `location_list_column` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inputType",
+            "columnName": "input_type_column",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activityType",
+            "columnName": "activity_type_column",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTime",
+            "columnName": "date_time_column",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "distance",
+            "columnName": "distance_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avgPace",
+            "columnName": "avg_pace_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avgSpeed",
+            "columnName": "avg_speed_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "calorie",
+            "columnName": "calorie_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "climb",
+            "columnName": "climb_column",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heartrate",
+            "columnName": "heart_rate_column",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment_column",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metric_info",
+            "columnName": "metric_info",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationList",
+            "columnName": "location_list_column",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '480870f1c89009218ab8cbfc2483e8f4')"
+    ]
+  }
+}

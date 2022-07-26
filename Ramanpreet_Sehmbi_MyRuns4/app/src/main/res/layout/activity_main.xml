@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/profile_photo">
+        </TextView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/user_profile_image_id"
+                android:layout_width="100dp"
+                android:layout_height="110dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/user_image_description"
+                android:src="@drawable/defaultuserimage" />
+
+            <Button
+                android:id="@+id/change_button_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="changeUserImage"
+                android:text="@string/change_profile_picture"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_name"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/user_name_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_name_hint"
+            android:inputType="textPersonName"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_email"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/email_address_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_email_hint"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_phone"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/phone_number_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_phone_hint"
+            android:inputType="phone"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_gender"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:id="@+id/gender_group_id">
+
+            <RadioButton android:id="@+id/female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_gender_female"
+                android:layout_weight="1"
+                />
+
+            <RadioButton android:id="@+id/male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/profile_gender_male"
+                android:checked="true"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_class"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/class_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_class_hint"
+            android:inputType="number"
+            android:maxLength="4"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_major"
+            android:layout_marginTop="5dp">
+        </TextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/profile_major_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_major_hint"
+            android:inputType="text"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:text="@string/profile_save_button"
+                android:onClick="saveProfile"
+                >
+            </Button>
+
+            <Button
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/profile_cancel_button"
+                android:onClick="closeApplication"
+                >
+            </Button>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
